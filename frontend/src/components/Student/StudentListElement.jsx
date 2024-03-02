@@ -2,10 +2,11 @@ import { object } from 'prop-types'
 
 const StudentListElement = ({ student }) => {
     return (
-        <div>
-            <div>{student.last_name}</div>
-            <div>{student.first_name}</div>
-            <div>{student.second_name}</div>
+        <div className={'student-row'}>
+            <div className={'element left-side'}>{student.last_name}</div>
+            <div className={'element'}>{student.first_name}</div>
+            <div className={'element'}>{student.second_name}</div>
+            <span className={'element right-side'}><strong>Детальніше</strong></span>
         </div>
     )
 }
