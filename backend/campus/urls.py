@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import ManageUserView
+from .views import ManageUserView, SubjectViewSet
 from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import (
 
 router = routers.DefaultRouter()
 
-# router.register("semi-categories", SemiCategoryViewSet)
+router.register("subjects", SubjectViewSet)
 # router.register("items", ItemViewSet)
 
 urlpatterns = [

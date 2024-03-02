@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Specialty, Faculty, Group, University, Course
+from .models import User, Specialty, Faculty, Group, University, Course, Subject
 
 # class GalleryInline(admin.TabularInline):
 #     fk_name = 'item'
@@ -25,3 +25,4 @@ admin.site.register(Specialty)
 admin.site.register(Group)
 admin.site.register(University)
 admin.site.register(Course)
+admin.site.register(Subject)

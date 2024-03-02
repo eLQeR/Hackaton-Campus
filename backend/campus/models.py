@@ -110,6 +110,7 @@ class StudentSubjectProgress(models.Model):
     def visit_rate(self):
         return round(self.num_of_pairs / self.num_of_visited_pairs, 2)
 
+
 class TypesTask(models.TextChoices):
     zr_task = "Залікова робота"
     rr_task = "Розрахункова робота"
@@ -124,6 +125,7 @@ class Task(models.Model):
     data_of_start = models.DateTimeField()
     type = models.CharField(choices=TypesTask.choices, max_length=63)
     dead_line = models.DateTimeField()
+
 
 class AnswerTask(models.Model):
     student = models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
