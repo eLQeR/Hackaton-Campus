@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux'
 import axios from '../api/axios'
-import { setToken } from '../utils/accessToken'
+import { setAccessToken } from '../redux/userSlice/userSlice'
 
 const useRefreshToken = () => {
-    const refreshToken = useSelector((state) => state.user.refreshToken)
+    const { refreshToken } = useSelector((state) => state.user)
 
     const refresh = async () => {
         try {
@@ -18,7 +18,7 @@ const useRefreshToken = () => {
                 }
             )
 
-            setToken(res.data.access)
+            dispatchEvent(setAccessToken(res.data.access))
             return res.data.access
         } catch (error) {
             console.log(error)

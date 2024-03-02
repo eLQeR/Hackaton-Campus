@@ -2,18 +2,24 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     resetError,
+    setAccessToken,
+    setUserFailure,
+    setUserStart,
+    setUserSuccess,
     signInFailure,
     signInStart,
     signInSuccess,
 } from '../redux/userSlice/userSlice'
 import Loader from '../utils/Loader'
-import axios from '../api/axios'
-import { getToken } from '../utils/accessToken.js'
+import useAxiosPrivate from '../hooks/useAxiosPrivate.js'
+import axios, { axiosPrivate } from '../api/axios.js'
+import { useNavigate } from 'react-router'
 
 const SignIn = () => {
     const [formData, setFormData] = useState({})
     const { loading, error } = useSelector((state) => state.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(resetError())
@@ -24,13 +30,21 @@ const SignIn = () => {
         dispatch(signInStart())
 
         try {
-            const res = await axios.post('/token/', JSON.stringify(formData), {
-                headers: { 'Content-Type': 'application/json' },
+            const resAuth = await axios.post(
+                '/token/',
+                JSON.stringify(formData),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            )
+
+            const res = await axios.get('/me/', {
+                withCredentials: true,
+                headers: { Authorization: `Bearer ${resAuth.data.access}` },
             })
 
-            dispatch(signInSuccess(res.data))
-
-            console.log(getToken())
+            dispatch(signInSuccess({ ...resAuth.data, user: res.data }))
+            navigate('/profile')
         } catch (error) {
             dispatch(signInFailure(error))
         }

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const ProfileButton = () => {
     return (
         <div id={'login-group'}>
-            <Link to="/login">
+            <Link to="/profile">
                 <CgProfile />
             </Link>
         </div>
