@@ -1,6 +1,10 @@
 * {
     padding: 0;
     margin: 0;
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
 }
 
 header {
@@ -101,13 +105,13 @@ section {
     justify-content: right;
     margin-right: 10px;
 
-    a > svg {
+    svg {
         height: 5vh;
         width: 5vh;
         color: #e5e5e5;
     }
 
-    a > svg:hover {
+    svg:hover {
         color: #979797;
     }
 }
@@ -140,7 +144,8 @@ section {
     border-bottom-left-radius: 5px;
 }
 
-.groups-table-head, .groups-table-row {
+.groups-table-head,
+.groups-table-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
@@ -184,9 +189,8 @@ section {
     > span {
         border-left: 1px solid #14213d;
     }
-    > span:hover{
+    > span:hover {
         background-color: #fca311;
-
     }
 }
 

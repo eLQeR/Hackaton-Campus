@@ -44,7 +44,7 @@ const SignIn = () => {
             })
 
             dispatch(signInSuccess({ ...resAuth.data, user: res.data }))
-            navigate('/profile')
+            navigate('/')
         } catch (error) {
             dispatch(signInFailure(error))
         }
@@ -58,7 +58,7 @@ const SignIn = () => {
 
     return (
         <section>
-            <form onSubmit={handleFormSubmit} id={"login-form"}>
+            <form onSubmit={handleFormSubmit} id={'login-form'}>
                 <h2>Увійти</h2>
                 <div className={'form-input'}>
                     <label htmlFor="username">Логін</label>

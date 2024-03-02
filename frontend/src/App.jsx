@@ -4,7 +4,7 @@ import Home from './pages/Home'
 import SignIn from './pages/SignIn'
 import GroupListPage from './pages/teacher/GroupListPage'
 import StudentListPage from './pages/teacher/StudentListPage'
-import Profile from './pages/Profile'
+import TestsPage from './pages/teacher/TestsPage'
 
 const router = createBrowserRouter([
     {
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
                 element: <StudentListPage />,
             },
             {
-                path: '/profile',
-                element: <Profile />,
+                path: '/tests',
+                element: <TestsPage />,
             },
         ],
     },
