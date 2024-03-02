@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 
 const GroupListElement = ({ group }) => {
     return (
-        <div>
+        <div className={"groups-table-row"}>
             <Link to={`/students/${group.id}`}>
-                <div>{group.code}</div>
+                <div className={"element left-side"}><p>{group.code}</p></div>
             </Link>
-            <div>{group.degree}</div>
-            <div>{group.form_of_studying}</div>
-            <div>{group.course}</div>
+            <div className={"element"}><p>{group.degree}</p></div>
+            <div className={"element"}><p>{group.form_of_studying}</p></div>
+            <div className={"element right-side"}><p>{group.course}</p></div>
         </div>
     )
 }

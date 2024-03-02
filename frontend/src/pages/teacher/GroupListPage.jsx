@@ -7,8 +7,16 @@ const GroupListPage = () => {
 
     return (
         <section>
-            <Filtering setFilters={setFilters} />
-            <GroupList filters={filters} />
+            <Filtering setFilters={setFilters}/>
+            <div id={"groups-table"}>
+                <div className={"groups-table-head"}>
+                    <div className={"element left-side"}><p>Група</p></div>
+                    <div className={"element"}><p>Вчений ступінь</p></div>
+                    <div className={"element"}><p>Форма навчання</p></div>
+                    <div className={"element right-side"}><p>Курс</p></div>
+                </div>
+                <GroupList filters={filters}/>
+            </div>
         </section>
     )
 }

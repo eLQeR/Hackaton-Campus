@@ -6,7 +6,7 @@ const Filtering = ({ setFilters }) => {
     }
 
     return (
-        <div>
+        <div className={'filter-style'}>
             <div>
                 <select name="form_of_studying" onChange={handleFilterChange}>
                     <option value={''}>Усі</option>
