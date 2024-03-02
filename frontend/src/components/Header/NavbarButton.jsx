@@ -6,11 +6,13 @@ const NavbarButton = () => {
 
     return (
         <div>
-            <p onClick={() => setNavbarVisible((prev) => !prev)}>
-                NavbarButton
-            </p>
+            <div className={`navbutton-back ${navbarVisible ? 'navbutton-back-opened' : 'navbutton-back-closed'}`}>
+                <p onClick={() => setNavbarVisible((prev) => !prev)}>
+                    NavbarButton
+                </p>
+            </div>
             <Navbar
-                className={navbarVisible ? 'navbar-opened' : 'navbar-closed'}
+                className={`navbar ${navbarVisible ? 'navbar-opened' : 'navbar-closed'}`}
             />
         </div>
     )
