@@ -54,6 +54,16 @@ class FacultyDetailSerializer(FacultySerializer):
     university = UniversitySerializer(many=False, read_only=False)
 
 
+class FacultyListSerializer(FacultySerializer):
+    university = UniversitySerializer(many=False, read_only=False)
+
+    class Meta:
+        model = Faculty
+        fields = ("id",
+                  "name",
+                  "university")
+
+
 class SpecialtySerializer(serializers.ModelSerializer):
     class Meta:
         model = Specialty
@@ -65,6 +75,16 @@ class SpecialtySerializer(serializers.ModelSerializer):
 
 class SpecialtyDetailSerializer(SpecialtySerializer):
     faculty = FacultySerializer(many=True, read_only=False)
+
+
+class SpecialtyListSerializer(SpecialtySerializer):
+    faculty = FacultySerializer(many=True, read_only=False)
+
+    class Meta:
+        model = Specialty
+        fields = ("id",
+                  "name",
+                  "code")
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -124,13 +144,11 @@ class UserDetailSerializer(UserSerializer):
 
 
 class UserListSerializer(UserSerializer):
-    group = GroupSerializer(many=False, read_only=False)
-    specialities = SpecialtySerializer(many=True, read_only=False)
-    groups = GroupSerializer(many=True, read_only=False)
+    # group = serializers.SlugRelatedField(slug_field="code", read_only=True)
 
     class Meta:
         model = get_user_model()
-        fields = ("id", "username", "email", "password", "is_staff", "last_name", "first_name", "second_name")
+        fields = ("id", "username", "password", "last_name", "first_name", "second_name")
         read_only_fields = ("id", "is_staff")
         extra_kwargs = {
             "password": {"write_only": True, "min_length": 5}

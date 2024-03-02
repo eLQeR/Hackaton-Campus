@@ -196,7 +196,6 @@ class AnswerArchive(models.Model):
         verbose_name_plural = "Файли відповіді"
 
 
-
 class Test(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -208,13 +207,31 @@ class Test(models.Model):
         verbose_name = 'Тест'
         verbose_name_plural = "Тести"
 
+    def __str__(self):
+        return self.name + " " + self.description
+
 
 class Question(models.Model):
     question = models.TextField()
-    is_correct = models.BooleanField(default=False)
     test = models.ForeignKey(to=Test, on_delete=models.CASCADE, related_name="questions")
     mark = models.PositiveIntegerField()
 
     class Meta:
         verbose_name = 'Питання'
         verbose_name_plural = "Питання"
+
+    def __str__(self):
+        return self.question
+
+
+class VariatsOfAnswer(models.Model):
+    answer = models.CharField(max_length=255)
+    is_correct = models.BooleanField(default=False)
+    question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name="variants")
+
+    class Meta:
+        verbose_name = 'Відповідь'
+        verbose_name_plural = "Відповіді"
+
+    def __str__(self):
+        return self.answer
