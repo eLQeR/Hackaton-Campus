@@ -208,6 +208,8 @@ class Test(models.Model):
         verbose_name = 'Тест'
         verbose_name_plural = "Тести"
 
+    def __str__(self):
+        return self.name + " " + self.description
 
 class Question(models.Model):
     question = models.TextField()
@@ -218,3 +220,6 @@ class Question(models.Model):
     class Meta:
         verbose_name = 'Питання'
         verbose_name_plural = "Питання"
+
+    def __str__(self):
+        return self.question
