@@ -20,6 +20,11 @@ header {
 
 section {
     background-color: #e5e5e5;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 .navbar {
@@ -115,4 +120,48 @@ section {
     width: 100vw;
     height: 100vh;
     z-index: 3;
+}
+
+#groups-table {
+    min-height: 90vh;
+    width: 80vw;
+    row-gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.right-side {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.left-side {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.groups-table-head, .groups-table-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.element {
+    background-color: #ffffff;
+
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    border: 2px solid #14213d;
+}
+
+.filter-style select {
+    width: 120px;
+    height: 45px;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid #14213d;
 }
