@@ -71,7 +71,7 @@ class Group(models.Model):
 class RolesUser(models.TextChoices):
     STUDENT = "Студент"
     ADMIN = "Адмін"
-    TEACHER = "Вчитель"
+    TEACHER = "Викладач"
 
 class User(AbstractUser):
     first_name = models.CharField(max_length=255)
@@ -80,8 +80,8 @@ class User(AbstractUser):
     phone = models.CharField(max_length=20)
     role = models.CharField(choices=RolesUser.choices, max_length=63, default=RolesUser.STUDENT)
     # STUDENT FIELDS
-    group = models.ForeignKey(to=Group, on_delete=models.CASCADE, related_name="students_of_group", null=True)
-    type_of_studying = models.CharField(choices=TypesStudying.choices, null=True, max_length=63)
+    group = models.ForeignKey(to=Group, on_delete=models.CASCADE, related_name="students_of_group", null=True, blank=True)
+    type_of_studying = models.CharField(choices=TypesStudying.choices, null=True, max_length=63, blank=True)
     # TEACHER FIELDS
     specialities = models.ManyToManyField(to=Specialty, related_name="teachers")
     groups = models.ManyToManyField(to=Group, related_name="teachers_groups")
@@ -125,6 +125,10 @@ class Task(models.Model):
     data_of_start = models.DateTimeField()
     type = models.CharField(choices=TypesTask.choices, max_length=63)
     dead_line = models.DateTimeField()
+
+    class Meta:
+        verbose_name = 'Завдання'
+        verbose_name_plural = "Завдання"
 
 
 class AnswerTask(models.Model):

@@ -145,5 +145,5 @@ class SubjectSerializer(serializers.ModelSerializer):
                   "specialty")
 
 
-class SubjectDetailSerializer(serializers.ModelSerializer):
+class SubjectDetailSerializer(SubjectSerializer):
     teacher = UserSerializer(many=False, read_only=False)
