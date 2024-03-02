@@ -12,4 +12,8 @@ const Navbar = ({ className }) => {
     )
 }
 
+Navbar.propTypes = {
+    className: 'string',
+}
+
 export default Navbar
