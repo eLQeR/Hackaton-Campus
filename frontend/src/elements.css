@@ -1,9 +1,14 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
 header {
-    position: fixed;
+    position: sticky;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 10%;
+    height: 10vh;
     top: 0;
     left: 0;
     z-index: 2;
@@ -11,23 +16,23 @@ header {
     color: #E5E5E5
 }
 
-body {
-    ;
-    background-color: #FFFFFF;
+section {
+    background-color: #E5E5E5;
 }
 
 .navbar {
-    height: 100%;
+    /*height: 100%;*/
     width: 300px;
 
-    position: fixed;
+    position: absolute;
     left: 0;
     z-index: -1;
 }
 
 .navbar-opened {
-    bottom: 100%;
-
+    /*bottom: -10%;*/
+    height: 100vh;
+    visibility: visible;
     background-color: #FCA311;
     color: #000000;
 
@@ -37,8 +42,9 @@ body {
 
 
 .navbar-closed{
-    bottom: -10%;
-
+    /*bottom: 100%;*/
+    height: 0;
+    visibility: hidden;
     background-color: #FCA311;
     color: #000000;
 
@@ -60,17 +66,17 @@ body {
 }
 
 .navbutton-back-opened {
-    background-color: #14213D;
-
-    transition: all 0.25s ease;
-    transition-delay: 0.5s;
-}
-
-.navbutton-back-closed {
     background-color: #FCA311;
     color: #000000;
 
     transition: background-color 0.25s ease;
+}
+
+.navbutton-back-closed {
+    background-color: #14213D;
+
+    transition: all 0.25s ease;
+    transition-delay: 0.5s;
 }
 
 
