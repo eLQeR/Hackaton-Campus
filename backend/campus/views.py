@@ -63,3 +63,43 @@ class GroupViewSet(viewsets.ModelViewSet):
         if form_of_studying:
             queryset = queryset.filter(form_of_studying=form_of_studying)
         return queryset
+
+class StudentSubjectProgressViewSet(viewsets.ModelViewSet):
+    queryset = StudentSubjectProgress.objects.all()
+    serializer_class = StudentSubjectProgressSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return StudentSubjectProgressListSerializer
+        return StudentSubjectProgressSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        form_of_studying = self.request.query_params.get("form_of_studying")
+
+        if form_of_studying:
+            queryset = queryset.filter(form_of_studying=form_of_studying)
+        return queryset
+
+class TestViewSet(viewsets.ModelViewSet):
+    queryset = Test.objects.all()
+    serializer_class = TestSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return TestSerializer
+        if self.action == "retrieve":
+            return TestDetailSerializer
+        if self.action == "create":
+            return TestCreateSerializer
+        return TestSerializer
+
+    # def create(self, request, *args, **kwargs):
+    #
+    def get_queryset(self):
+        queryset = self.queryset
+        form_of_studying = self.request.query_params.get("form_of_studying")
+
+        if form_of_studying:
+            queryset = queryset.filter(form_of_studying=form_of_studying)
+        return queryset

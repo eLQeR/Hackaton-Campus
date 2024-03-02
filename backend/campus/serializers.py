@@ -148,11 +148,7 @@ class UserListSerializer(UserSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ("id", "username", "password", "last_name", "first_name", "second_name")
-        read_only_fields = ("id", "is_staff")
-        extra_kwargs = {
-            "password": {"write_only": True, "min_length": 5}
-        }
+        fields = ("id", "last_name", "first_name", "second_name")
 
 
 class AnswerTaskSerializer(serializers.ModelSerializer):
@@ -210,13 +206,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ("id",
                   "question",
-                  "is_correct",
                   "test",
-                  "mark")
-
-
-class QuestionDetailSerializer(QuestionSerializer):
-    test = TestSerializer(many=False, read_only=False)
+                  "mark",)
 
 
 class QuestionListSerializer(QuestionSerializer):
@@ -283,3 +274,89 @@ class StudentSubjectProgressListSerializer(StudentSubjectProgressSerializer):
                   "student",
                   "sum_marks",
                   "visit_rate")
+
+
+class VariantOfAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VariantOfAnswer
+        fields = ("id", "answer", "is_correct", "question")
+
+
+class QuestionDetailSerializer(QuestionSerializer):
+    variants = VariantOfAnswerSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Question
+        fields = ("id",
+                  "question",
+                  "test",
+                  "mark",
+                  "variants")
+
+
+class TestDetailSerializer(serializers.ModelSerializer):
+    questions = QuestionDetailSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Test
+        fields = ("id",
+                  "name",
+                  "description",
+                  "data_created",
+                  "test_time",
+                  "max_mark",
+                  "questions")
+
+
+
+
+class QuestionCreateSerializer(serializers.ModelSerializer):
+    variants = VariantOfAnswerSerializer(many=True, read_only=False)
+
+    class Meta:
+        model = Question
+        fields = ("id",
+                  "question",
+                  "test",
+                  "mark",
+                  "variants")
+
+class TestCreateSerializer(serializers.ModelSerializer):
+    questions = QuestionCreateSerializer(many=True, read_only=False)
+
+    class Meta:
+        model = Test
+        fields = ("id",
+                  "name",
+                  "description",
+                  "data_created",
+                  "test_time",
+                  "max_mark",
+                  "questions")
+    def create(self, validated_data):
+        test_name = validated_data["name"]
+        description = validated_data["description"]
+        test_time = validated_data["test_time"]
+        max_mark = validated_data["max_mark"]
+        questions = validated_data["questions"]
+        test = Test.objects.create(
+            name=test_name,
+            description=description,
+            test_time=test_time,
+            max_mark=max_mark
+        )
+        for question in questions:
+            question_ask = question.get("question")
+            test_id = test.id
+            mark = question.get("mark")
+            created_question_id = Question.objects.create(
+                question=question_ask,
+                test_id=test_id,
+                mark=mark
+            ).id
+            for variant in question.get("variants"):
+                VariantOfAnswer.objects.create(
+                    answer=variant.get("answer"),
+                    is_correct=False,
+                    question_id=created_question_id
+                )

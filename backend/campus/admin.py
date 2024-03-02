@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Specialty, Faculty, Group, University, Course, Subject, Task, Question, Test, VariatsOfAnswer
+from .models import User, Specialty, Faculty, Group, University, Course, Subject, Task, Question, Test, VariantOfAnswer
 
 
 class QuestionInline(admin.TabularInline):
@@ -10,7 +10,7 @@ class QuestionInline(admin.TabularInline):
 #
 class AnswerInline(admin.TabularInline):
     fk_name = 'question'
-    model = VariatsOfAnswer
+    model = VariantOfAnswer
     extra = 4
 
 

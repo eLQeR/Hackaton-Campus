@@ -122,12 +122,21 @@ class User(AbstractUser):
             return f"{self.last_name} {self.first_name} {self.second_name} - {self.role}"
         return f"{self.last_name} {self.first_name} - {self.role}"
 
+    def save(self, *args, **kwargs):
+        super(User, self).save(*args, **kwargs)
+        print("Nigga start")
+        print("password")
+        print("passsword", kwargs.get("password"))
+        print("password")
+        for subject in self.group.specialty.subjects.all():
+            print("Nigga doo")
+            StudentSubjectProgress.objects.create(subject=subject, student=self)
 
 class Subject(models.Model):
     name = models.CharField(max_length=255)
     amount_of_pairs = models.PositiveIntegerField()
-    teacher = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="subject")
-    specialty = models.ForeignKey(to=Specialty, on_delete=models.CASCADE, related_name="subject")
+    teacher = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="subjects")
+    specialty = models.ForeignKey(to=Specialty, on_delete=models.CASCADE, related_name="subjects")
 
     class Meta:
         verbose_name = 'Предмет'
@@ -137,9 +146,9 @@ class Subject(models.Model):
 class StudentSubjectProgress(models.Model):
     subject = models.ForeignKey(to=Subject, on_delete=models.CASCADE, related_name="students_progress")
     student = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="students_progress")
-    num_of_pairs = models.PositiveIntegerField()
-    num_of_visited_pairs = models.PositiveIntegerField()
-    sum_marks = models.PositiveIntegerField()
+    num_of_pairs = models.PositiveIntegerField(default=10)
+    num_of_visited_pairs = models.PositiveIntegerField(default=0)
+    sum_marks = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = 'Успішність студента'
@@ -147,7 +156,9 @@ class StudentSubjectProgress(models.Model):
 
     @property
     def visit_rate(self):
-        return round(self.num_of_pairs / self.num_of_visited_pairs, 2)
+        if self.num_of_visited_pairs:
+            return round(self.num_of_pairs / self.num_of_visited_pairs, 2)
+        return 0
 
 
 class TypesTask(models.TextChoices):
@@ -169,6 +180,8 @@ class Task(models.Model):
         verbose_name = 'Завдання'
         verbose_name_plural = "Завдання"
 
+    def save(self, *args, **kwargs):
+        super(Task, self).save(*args, **kwargs)
 
 class AnswerTask(models.Model):
     student = models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
@@ -224,7 +237,7 @@ class Question(models.Model):
         return self.question
 
 
-class VariatsOfAnswer(models.Model):
+class VariantOfAnswer(models.Model):
     answer = models.CharField(max_length=255)
     is_correct = models.BooleanField(default=False)
     question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name="variants")
