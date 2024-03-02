@@ -3,7 +3,7 @@ import GroupList from '../../components/Group/GroupList'
 import Filtering from '../../components/Group/Filtering'
 
 const GroupListPage = () => {
-    const [filters, setFilters] = useState([])
+    const [filters, setFilters] = useState({})
 
     return (
         <section>

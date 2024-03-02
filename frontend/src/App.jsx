@@ -3,6 +3,7 @@ import Layout from './utils/Layout'
 import Home from './pages/Home'
 import SignIn from './pages/SignIn'
 import GroupListPage from './pages/teacher/GroupListPage'
+import StudentListPage from './pages/teacher/StudentListPage'
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
             {
                 path: '/groups',
                 element: <GroupListPage />,
+            },
+            {
+                path: '/students/:group_id',
+                element: <StudentListPage />,
             },
         ],
     },

@@ -1,4 +1,4 @@
-import { array } from 'prop-types'
+import { object } from 'prop-types'
 import GroupListElement from './GroupListElement'
 import { useEffect, useState } from 'react'
 import {
@@ -12,7 +12,7 @@ import Loader from '../../utils/Loader'
 
 const GroupList = ({ filters }) => {
     const [groups, setGroups] = useState([])
-    const { loading, error } = useSelector((state) => state.loading)
+    const { loading } = useSelector((state) => state.loading)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -45,7 +45,7 @@ const GroupList = ({ filters }) => {
 }
 
 GroupList.propTypes = {
-    groups: array,
+    filters: object,
 }
 
 export default GroupList
