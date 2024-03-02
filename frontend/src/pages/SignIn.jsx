@@ -1,17 +1,39 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { signInStart, signInSuccess } from '../redux/userSlice/userSlice'
+import {
+    resetError,
+    signInFailure,
+    signInStart,
+    signInSuccess,
+} from '../redux/userSlice/userSlice'
 import Loader from '../utils/Loader'
+import axios from '../api/axios'
+import { getToken } from '../utils/accessToken.js'
 
 const SignIn = () => {
     const [formData, setFormData] = useState({})
     const { loading, error } = useSelector((state) => state.user)
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(resetError())
+    }, [formData, dispatch])
+
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         dispatch(signInStart())
-        setTimeout(() => dispatch(signInSuccess()), 5000)
+
+        try {
+            const res = await axios.post('/token/', JSON.stringify(formData), {
+                headers: { 'Content-Type': 'application/json' },
+            })
+
+            dispatch(signInSuccess(res.data))
+
+            console.log(getToken())
+        } catch (error) {
+            dispatch(signInFailure(error))
+        }
     }
 
     const handleInputChange = (e) => {
@@ -25,7 +47,7 @@ const SignIn = () => {
             <form onSubmit={handleFormSubmit}>
                 <input
                     onChange={handleInputChange}
-                    name="login"
+                    name="username"
                     type="text"
                     placeholder="Логін"
                 />
