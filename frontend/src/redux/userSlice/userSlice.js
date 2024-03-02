@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { setToken } from '../../utils/accessToken'
 
 const initialState = {
     error: null,
     user: null,
     loading: null,
     refreshToken: null,
-    accessToken: null,
 }
 
 const userSlice = createSlice({
@@ -17,7 +17,7 @@ const userSlice = createSlice({
         },
         signInSuccess: (state, action) => {
             state.user = action.payload.user
-            state.accessToken = action.payload.access
+            setToken(action.payload.access)
             state.refreshToken = action.payload.refresh
         },
         signInFailure: (state, action) => {
