@@ -58,19 +58,27 @@ const SignIn = () => {
 
     return (
         <section>
-            <form onSubmit={handleFormSubmit}>
-                <input
-                    onChange={handleInputChange}
-                    name="username"
-                    type="text"
-                    placeholder="Логін"
-                />
-                <input
-                    onChange={handleInputChange}
-                    name="password"
-                    type="password"
-                    placeholder="Пароль"
-                />
+            <form onSubmit={handleFormSubmit} id={"login-form"}>
+                <h2>Увійти</h2>
+                <div className={'form-input'}>
+                    <label htmlFor="username">Логін</label>
+                    <input
+                        onChange={handleInputChange}
+                        name="username"
+                        type="text"
+                        placeholder="Введіть логін"
+                    />
+                </div>
+                <div className={'form-input'}>
+                    <label htmlFor="password">Пароль</label>
+                    <input
+                        onChange={handleInputChange}
+                        name="password"
+                        type="password"
+                        placeholder="Введіть пароль"
+                    />
+                </div>
+
                 <button type="submit">Увійти</button>
             </form>
             {error && <p>Error occured</p>}
