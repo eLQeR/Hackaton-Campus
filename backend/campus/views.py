@@ -2,7 +2,7 @@ from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import *
-from .serializers import UserSerializer, SubjectSerializer, SpecialtySerializer
+from .serializers import UserSerializer, SubjectSerializer, SpecialtySerializer, GroupSerializer, GroupDetailSerializer, GroupListSerializer
 
 
 class ManageUserView(generics.RetrieveUpdateAPIView):
@@ -29,4 +29,22 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
         if group:
             queryset = queryset.filter(group=group)
+        return queryset
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = SubjectSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return GroupListSerializer
+        return GroupSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        form_of_studying = self.request.query_params.get("form_of_studying")
+
+        if form_of_studying:
+            queryset = queryset.filter(form_of_studying=form_of_studying)
         return queryset

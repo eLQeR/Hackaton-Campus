@@ -35,30 +35,50 @@ class University(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
 
+    class Meta:
+        verbose_name = 'Університет'
+        verbose_name_plural = "Університети"
+
     def __str__(self):
         return self.name
+
 
 class Course(models.Model):
     course = models.CharField(choices=Courses.choices, max_length=63)
     degree = models.CharField(choices=Degrees.choices, max_length=63)
 
+    class Meta:
+        verbose_name = 'Курс'
+        verbose_name_plural = "Курси"
+
     def __str__(self):
         return f"{self.course} - {self.degree}"
+
 
 class Faculty(models.Model):
     name = models.CharField(max_length=255)
     university = models.ForeignKey(to=University, on_delete=models.CASCADE, related_name="faculties")
 
+    class Meta:
+        verbose_name = 'Факультет'
+        verbose_name_plural = "Факультети"
+
     def __str__(self):
         return self.name
+
 
 class Specialty(models.Model):
     name = models.CharField(max_length=255, unique=True)
     code = models.IntegerField(unique=True)
     faculty = models.ForeignKey(to=Faculty, on_delete=models.CASCADE, related_name="specialities")
 
+    class Meta:
+        verbose_name = 'Спеціальність'
+        verbose_name_plural = "Спеціальності"
+
     def __str__(self):
         return f"{self.code} {self.name}"
+
 
 class Group(models.Model):
     code = models.CharField(max_length=10, unique=True)
@@ -66,12 +86,19 @@ class Group(models.Model):
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE, related_name="groups")
     form_of_studying = models.CharField(choices=FormsStudying.choices, max_length=255, null=True)
 
+    class Meta:
+        verbose_name = 'Група'
+        verbose_name_plural = "Групи"
+
     def __str__(self):
         return self.code
+
+
 class RolesUser(models.TextChoices):
     STUDENT = "Студент"
     ADMIN = "Адмін"
-    TEACHER = "Вчитель"
+    TEACHER = "Викладач"
+
 
 class User(AbstractUser):
     first_name = models.CharField(max_length=255)
@@ -80,11 +107,15 @@ class User(AbstractUser):
     phone = models.CharField(max_length=20)
     role = models.CharField(choices=RolesUser.choices, max_length=63, default=RolesUser.STUDENT)
     # STUDENT FIELDS
-    group = models.ForeignKey(to=Group, on_delete=models.CASCADE, related_name="students_of_group", null=True)
-    type_of_studying = models.CharField(choices=TypesStudying.choices, null=True, max_length=63)
+    group = models.ForeignKey(to=Group, on_delete=models.CASCADE, related_name="students_of_group", null=True, blank=True)
+    type_of_studying = models.CharField(choices=TypesStudying.choices, null=True, max_length=63, blank=True)
     # TEACHER FIELDS
     specialities = models.ManyToManyField(to=Specialty, related_name="teachers")
     groups = models.ManyToManyField(to=Group, related_name="teachers_groups")
+
+    class Meta:
+        verbose_name = 'Користувач'
+        verbose_name_plural = "Користувачі"
 
     def __str__(self):
         if self.second_name:
@@ -98,6 +129,10 @@ class Subject(models.Model):
     teacher = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="subject")
     specialty = models.ForeignKey(to=Specialty, on_delete=models.CASCADE, related_name="subject")
 
+    class Meta:
+        verbose_name = 'Предмет'
+        verbose_name_plural = "Предмети"
+
 
 class StudentSubjectProgress(models.Model):
     subject = models.ForeignKey(to=Subject, on_delete=models.CASCADE, related_name="students_progress")
@@ -105,6 +140,10 @@ class StudentSubjectProgress(models.Model):
     num_of_pairs = models.PositiveIntegerField()
     num_of_visited_pairs = models.PositiveIntegerField()
     sum_marks = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'Успішність студента'
+        verbose_name_plural = "Успішність студентів"
 
     @property
     def visit_rate(self):
@@ -126,10 +165,18 @@ class Task(models.Model):
     type = models.CharField(choices=TypesTask.choices, max_length=63)
     dead_line = models.DateTimeField()
 
+    class Meta:
+        verbose_name = 'Завдання'
+        verbose_name_plural = "Завдання"
+
 
 class AnswerTask(models.Model):
     student = models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
     task = models.ForeignKey(to=Task, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Відповідь на питання'
+        verbose_name_plural = "Відповіді на питання"
 
 
 def create_custom_path(instance, filename):
@@ -144,6 +191,11 @@ class AnswerArchive(models.Model):
     file = models.FileField(upload_to=create_custom_path)
     answer = models.ForeignKey(to=AnswerTask, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'Файл відповіді'
+        verbose_name_plural = "Файли відповіді"
+
+
 
 class Test(models.Model):
     name = models.CharField(max_length=255)
@@ -152,9 +204,17 @@ class Test(models.Model):
     test_time = models.TimeField()
     max_mark = models.PositiveIntegerField()
 
+    class Meta:
+        verbose_name = 'Тест'
+        verbose_name_plural = "Тести"
+
 
 class Question(models.Model):
     question = models.TextField()
     is_correct = models.BooleanField(default=False)
     test = models.ForeignKey(to=Test, on_delete=models.CASCADE, related_name="questions")
     mark = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'Питання'
+        verbose_name_plural = "Питання"
