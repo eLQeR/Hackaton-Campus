@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { signInStart, signInSuccess } from '../redux/userSlice/userSlice'
+import {
+    signInFailure,
+    signInStart,
+    signInSuccess,
+} from '../redux/userSlice/userSlice'
 import Loader from '../utils/Loader'
+import axios from '../api/axios'
 
 const SignIn = () => {
     const [formData, setFormData] = useState({})
@@ -11,7 +16,20 @@ const SignIn = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         dispatch(signInStart())
-        setTimeout(() => dispatch(signInSuccess()), 5000)
+
+        try {
+            console.log(formData)
+            const res = await axios.post('/token/', JSON.stringify(formData), {
+                headers: { 'Content-Type': 'application/json' },
+            })
+
+            console.log(res)
+
+            dispatch(signInSuccess(res.data))
+        } catch (error) {
+            console.log(error)
+            dispatch(signInFailure(error))
+        }
     }
 
     const handleInputChange = (e) => {
@@ -25,7 +43,7 @@ const SignIn = () => {
             <form onSubmit={handleFormSubmit}>
                 <input
                     onChange={handleInputChange}
-                    name="login"
+                    name="username"
                     type="text"
                     placeholder="Логін"
                 />

@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'campus_system.urls'
@@ -140,3 +142,5 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "campus.User"
+
+CORS_ALLOW_CREDENTIALS = True
