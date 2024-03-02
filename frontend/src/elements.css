@@ -14,12 +14,12 @@ header {
     width: 100%;
     height: 10vh;
     z-index: 2;
-    background-color: #14213D;
-    color: #E5E5E5
+    background-color: #14213d;
+    color: #e5e5e5;
 }
 
 section {
-    background-color: #E5E5E5;
+    background-color: #e5e5e5;
 }
 
 .navbar {
@@ -27,24 +27,23 @@ section {
 
     position: absolute;
     left: 0;
-    z-index: -1;
+    z-index: 4;
 }
 
 .navbar-opened {
     height: 90vh;
 
     visibility: visible;
-    background-color: #FCA311;
+    background-color: #fca311;
     color: #000000;
 
     transition: all 0.75s ease;
-
 }
 
-.navbar-closed{
+.navbar-closed {
     height: 0;
     visibility: hidden;
-    background-color: #FCA311;
+    background-color: #fca311;
     color: #000000;
 
     transition: all 0.5s ease;
@@ -70,24 +69,22 @@ section {
 }
 
 .navbutton-back-opened {
-    background-color: #FCA311;
+    background-color: #fca311;
     color: #000000;
-
     transition: background-color 0.25s ease;
-
 }
 
 .navbutton-back-closed {
-    background-color: #14213D;
+    background-color: #14213d;
 
     transition: all 0.25s ease;
     transition-delay: 0.5s;
 
     > p > svg {
-        color: #E5E5E5;
+        color: #e5e5e5;
     }
 
-    > p > svg:hover{
+    > p > svg:hover {
         color: #979797;
     }
 }
@@ -103,7 +100,7 @@ section {
     a > svg {
         height: 5vh;
         width: 5vh;
-        color: #E5E5E5;
+        color: #e5e5e5;
     }
 
     a > svg:hover {
@@ -111,3 +108,11 @@ section {
     }
 }
 
+.blocker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 3;
+}

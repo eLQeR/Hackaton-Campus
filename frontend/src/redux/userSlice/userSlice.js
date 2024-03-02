@@ -14,12 +14,13 @@ const userSlice = createSlice({
     reducers: {
         signInStart: (state) => {
             state.loading = true
+            state.error = null
         },
         signInSuccess: (state, action) => {
             state.user = action.payload.user
             setToken(action.payload.access)
             state.refreshToken = action.payload.refresh
-            state.error = false
+            state.error = null
             state.loading = false
         },
         signInFailure: (state, action) => {
