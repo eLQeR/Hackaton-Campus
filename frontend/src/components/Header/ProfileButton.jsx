@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom'
 
 const ProfileButton = () => {
     return (
-        <div>
+        <div id={'login-group'}>
             <Link to="/login">
                 <CgProfile />
-                <button>Profile</button>
             </Link>
         </div>
     )

@@ -5,12 +5,14 @@
 
 header {
     position: sticky;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 10vh;
     top: 0;
     left: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
     z-index: 2;
     background-color: #14213D;
     color: #E5E5E5
@@ -21,7 +23,6 @@ section {
 }
 
 .navbar {
-    /*height: 100%;*/
     width: 300px;
 
     position: absolute;
@@ -30,8 +31,8 @@ section {
 }
 
 .navbar-opened {
-    /*bottom: -10%;*/
-    height: 100vh;
+    height: 90vh;
+
     visibility: visible;
     background-color: #FCA311;
     color: #000000;
@@ -40,9 +41,7 @@ section {
 
 }
 
-
 .navbar-closed{
-    /*bottom: 100%;*/
     height: 0;
     visibility: hidden;
     background-color: #FCA311;
@@ -52,16 +51,21 @@ section {
     transition-delay: 0.25s;
 }
 
-
 .navbutton-back {
     width: 300px;
-    height: 100%;
+    height: 10vh;
 
     display: flex;
     align-items: center;
 
     > p {
         margin-left: 10px;
+        cursor: pointer;
+
+        svg {
+            height: 5vh;
+            width: 5vh;
+        }
     }
 }
 
@@ -70,6 +74,7 @@ section {
     color: #000000;
 
     transition: background-color 0.25s ease;
+
 }
 
 .navbutton-back-closed {
@@ -77,7 +82,32 @@ section {
 
     transition: all 0.25s ease;
     transition-delay: 0.5s;
+
+    > p > svg {
+        color: #E5E5E5;
+    }
+
+    > p > svg:hover{
+        color: #979797;
+    }
 }
 
+#login-group {
+    width: 300px;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin-right: 10px;
 
+    a > svg {
+        height: 5vh;
+        width: 5vh;
+        color: #E5E5E5;
+    }
+
+    a > svg:hover {
+        color: #979797;
+    }
+}
 

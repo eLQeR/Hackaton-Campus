@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import Navbar from './Navbar'
+import {Divide as Hamburger} from 'hamburger-react'
 
 const NavbarButton = () => {
     const [navbarVisible, setNavbarVisible] = useState(false)
-
     return (
         <div>
             <div
@@ -13,9 +13,7 @@ const NavbarButton = () => {
                         : 'navbutton-back-closed'
                 }`}
             >
-                <p onClick={() => setNavbarVisible((prev) => !prev)}>
-                    NavbarButton
-                </p>
+                <Hamburger toggled={navbarVisible} toggle={setNavbarVisible} duration={0.75}/>
             </div>
             <Navbar
                 className={`navbar ${
