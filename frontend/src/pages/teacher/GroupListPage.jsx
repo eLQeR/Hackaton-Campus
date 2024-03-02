@@ -1,41 +1,14 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-    setError,
-    startLoading,
-    stopLoading,
-} from '../../redux/loadingSlice/loadingSlice'
-import { axiosPrivate } from '../../api/axios'
-import Loader from '../../utils/Loader'
+import { useState } from 'react'
 import GroupList from '../../components/Group/GroupList'
+import Filtering from '../../components/Group/Filtering'
 
 const GroupListPage = () => {
-    const [groups, setGroups] = useState([])
-    const { loading, error } = useSelector((state) => state.loading)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        const fetchGroups = async () => {
-            dispatch(startLoading())
-
-            try {
-                const res = await axiosPrivate.get('/groups/')
-                setGroups(res.data)
-            } catch (error) {
-                dispatch(setError(error))
-            } finally {
-                dispatch(stopLoading())
-            }
-        }
-
-        fetchGroups()
-    }, [dispatch])
-
-    if (loading) return <Loader />
+    const [filters, setFilters] = useState([])
 
     return (
         <section>
-            <GroupList groups={groups} />
+            <Filtering setFilters={setFilters} />
+            <GroupList filters={filters} />
         </section>
     )
 }

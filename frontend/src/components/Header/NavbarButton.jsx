@@ -4,6 +4,7 @@ import { Divide as Hamburger } from 'hamburger-react'
 
 const NavbarButton = () => {
     const [navbarVisible, setNavbarVisible] = useState(false)
+
     return (
         <div>
             <div
@@ -20,6 +21,7 @@ const NavbarButton = () => {
                 />
             </div>
             <Navbar
+                onClick={() => setNavbarVisible((prev) => !prev)}
                 className={`navbar ${
                     navbarVisible ? 'navbar-opened' : 'navbar-closed'
                 }`}

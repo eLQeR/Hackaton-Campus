@@ -1,11 +1,12 @@
+import { string, func } from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const Navbar = ({ className }) => {
+const Navbar = ({ className, onClick }) => {
     return (
         <div className={className}>
             <div>
                 <Link to="/groups">
-                    <span>Список груп</span>
+                    <span onClick={onClick}>Список груп</span>
                 </Link>
             </div>
         </div>
@@ -13,7 +14,8 @@ const Navbar = ({ className }) => {
 }
 
 Navbar.propTypes = {
-    className: 'string',
+    className: string,
+    onClick: func,
 }
 
 export default Navbar
