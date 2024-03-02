@@ -54,6 +54,16 @@ class FacultyDetailSerializer(FacultySerializer):
     university = UniversitySerializer(many=False, read_only=False)
 
 
+class FacultyListSerializer(FacultySerializer):
+    university = UniversitySerializer(many=False, read_only=False)
+
+    class Meta:
+        model = Faculty
+        fields = ("id",
+                  "name",
+                  "university")
+
+
 class SpecialtySerializer(serializers.ModelSerializer):
     class Meta:
         model = Specialty
@@ -65,6 +75,16 @@ class SpecialtySerializer(serializers.ModelSerializer):
 
 class SpecialtyDetailSerializer(SpecialtySerializer):
     faculty = FacultySerializer(many=True, read_only=False)
+
+
+class SpecialtyListSerializer(SpecialtySerializer):
+    faculty = FacultySerializer(many=True, read_only=False)
+
+    class Meta:
+        model = Specialty
+        fields = ("id",
+                  "name",
+                  "code")
 
 
 class GroupSerializer(serializers.ModelSerializer):
