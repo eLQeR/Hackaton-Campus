@@ -4,11 +4,11 @@ import ProfileButton from './ProfileButton'
 
 const Header = () => {
     return (
-        <div>
+        <header>
             <NavbarButton />
             <Title />
             <ProfileButton />
-        </div>
+        </header>
     )
 }
 
