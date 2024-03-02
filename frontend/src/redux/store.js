@@ -21,4 +21,5 @@ export const store = configureStore({
             serializableCheck: null,
         }),
 })
+
 export const persistor = persistStore(store)

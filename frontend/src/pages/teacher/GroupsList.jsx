@@ -4,11 +4,11 @@ const GroupsList = () => {
     const groups = []
 
     return (
-        <div>
+        <section>
             {groups.map((group) => (
                 <Group key={group.id} group={group} />
             ))}
-        </div>
+        </section>
     )
 }
 

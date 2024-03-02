@@ -1,20 +1,27 @@
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { signInStart, signInSuccess } from '../redux/userSlice/userSlice'
+import Loader from '../utils/Loader'
 
 const SignIn = () => {
     const [formData, setFormData] = useState({})
+    const { loading, error } = useSelector((state) => state.user)
+    const dispatch = useDispatch()
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault()
-
-        console.log(formData)
+        dispatch(signInStart())
+        setTimeout(() => dispatch(signInSuccess()), 5000)
     }
 
     const handleInputChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
+    if (loading) return <Loader />
+
     return (
-        <div>
+        <section>
             <form onSubmit={handleFormSubmit}>
                 <input
                     onChange={handleInputChange}
@@ -30,7 +37,8 @@ const SignIn = () => {
                 />
                 <button type="submit">Увійти</button>
             </form>
-        </div>
+            {error && <p>Error occured</p>}
+        </section>
     )
 }
 

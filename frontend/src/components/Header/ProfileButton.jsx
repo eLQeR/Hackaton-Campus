@@ -1,10 +1,13 @@
 import { CgProfile } from 'react-icons/cg'
+import { Link } from 'react-router-dom'
 
 const ProfileButton = () => {
     return (
         <div>
-            <CgProfile />
-            <button>Profile</button>
+            <Link to="/login">
+                <CgProfile />
+                <button>Profile</button>
+            </Link>
         </div>
     )
 }
