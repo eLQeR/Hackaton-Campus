@@ -26,6 +26,31 @@ class TaskSerializer(serializers.ModelSerializer):
                   "dead_line")
 
 
+class AnswerArchiveCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnswerTask
+        fields = (
+            "id",
+            "file",
+            "answer"
+        )
+
+
+class TaskCreateSerializer(serializers.ModelSerializer):
+    answer = AnswerArchiveCreateSerializer(many=False, read_only=False)
+
+    class Meta:
+        model = Task
+        fields = ("id",
+                  "name",
+                  "max_mark",
+                  "data_created",
+                  "data_of_start",
+                  "type",
+                  "dead_line",
+                  "answer")
+
+
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
@@ -105,6 +130,7 @@ class GroupDetailSerializer(GroupSerializer):
 class GroupListSerializer(GroupSerializer):
     course = serializers.SlugRelatedField(slug_field="course", read_only=True)
     degree = serializers.SlugRelatedField(source="course", slug_field="degree", read_only=True)
+
     class Meta:
         model = Group
         fields = ("id",
