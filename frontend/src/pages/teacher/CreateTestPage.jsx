@@ -33,14 +33,10 @@ const CreateTestPage = () => {
             const newData = { ...prev }
 
             if (!newData.questions[id]) {
-                newData.questions[id] = {}
+                newData.questions[id] = { variants: [] }
             }
 
-            if (!newData.questions[id].answers) {
-                newData.questions[id].answers = []
-            }
-
-            newData.questions[id].answers.forEach((answer, i) => {
+            newData.questions[id].variants.forEach((answer, i) => {
                 if (!answer) answer = { is_correct: false }
                 if (i === e.target.value) answer.is_correct = true
                 else answer.is_correct = false
@@ -55,11 +51,14 @@ const CreateTestPage = () => {
             const newData = { ...prev }
 
             if (!newData.questions[id]) {
-                newData.questions[id] = {}
-                newData.questions[id].answers = []
+                newData.questions[id] = { variants: [] }
             }
 
-            newData.questions[id].answers[index] = { answer: e.target.value }
+            newData.questions[id].variants[index] = {
+                answer: e.target.value,
+                is_correct: false,
+            }
+
             return newData
         })
     }
@@ -69,22 +68,22 @@ const CreateTestPage = () => {
         formData.questions = Object.values(formData.questions)
         formData.questions.forEach((question) => {
             question.test = 8
-            question.answers.forEach((answer) => (answer.question = 8))
+            question.variants.forEach((answer) => (answer.question = 8))
         })
 
-        // try {
-        //     dispatch(startLoading())
-        //     const res = await axiosPrivate.post(
-        //         '/create-test/',
-        //         JSON.stringify(formData)
-        //     )
+        try {
+            dispatch(startLoading())
+            const res = await axiosPrivate.post(
+                '/create-test/',
+                JSON.stringify(formData)
+            )
 
-        //     console.log(res.data)
-        // } catch (error) {
-        //     dispatch(setError(error))
-        // } finally {
-        //     dispatch(stopLoading())
-        // }
+            console.log(res.data)
+        } catch (error) {
+            dispatch(setError(error))
+        } finally {
+            dispatch(stopLoading())
+        }
         console.log(formData)
     }
 
