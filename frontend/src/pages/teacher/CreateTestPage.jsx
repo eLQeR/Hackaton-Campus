@@ -56,171 +56,14 @@ const CreateTestPage = () => {
             }
 
             newData.questions[id].variants.forEach((answer, i) => {
+                console.log(answer, e.target.value, i)
                 if (!answer) answer = { is_correct: false }
-                if (i === e.target.value) answer.is_correct = true
+                if (i == e.target.value) answer.is_correct = true
                 else answer.is_correct = false
             })
 
             return newData
         })
-    }
-
-    const temp = async (i) => {
-        try {
-            await axiosPrivate.post(
-                '/create-test/',
-                JSON.stringify({
-                    name: 'Столиці світу Яроса',
-                    description: 'Це тест на знання столиць світу',
-                    test_time: '13:30:00',
-                    max_mark: 20,
-                    group: i,
-                    questions: [
-                        {
-                            question: 'Столиця України?',
-                            test: 8,
-                            mark: 2,
-                            variants: [
-                                {
-                                    answer: 'a) Донецьк',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Вінниця',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Київ',
-                                    is_correct: 'True',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Харків',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                            ],
-                        },
-                        {
-                            question: 'Столиця Франції?',
-                            test: 8,
-                            mark: 2,
-                            variants: [
-                                {
-                                    answer: 'a) Київ',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Тегеран',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Берлін',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Париж',
-                                    is_correct: 'True',
-                                    question: 8,
-                                },
-                            ],
-                        },
-                        {
-                            question: 'Столиця Німеччини?',
-                            test: 8,
-                            mark: 2,
-                            variants: [
-                                {
-                                    answer: 'a) Київ',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Рига',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Берлін',
-                                    is_correct: 'True',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Париж',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                            ],
-                        },
-                        {
-                            question: 'Столиця Німеччини?',
-                            test: 8,
-                            mark: 2,
-                            variants: [
-                                {
-                                    answer: 'a) Київ',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Рига',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Берлін',
-                                    is_correct: 'True',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Париж',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                            ],
-                        },
-                        {
-                            question: 'Столиця Німеччини?',
-                            test: 8,
-                            mark: 2,
-                            variants: [
-                                {
-                                    answer: 'a) Київ',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Рига',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Берлін',
-                                    is_correct: 'True',
-                                    question: 8,
-                                },
-                                {
-                                    answer: 'a) Париж',
-                                    is_correct: 'False',
-                                    question: 8,
-                                },
-                            ],
-                        },
-                    ],
-                })
-            )
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    for (let i = 6; i < 50; i++) {
-        temp(i)
     }
 
     const updateAnswers = (id, index) => (e) => {
@@ -247,6 +90,8 @@ const CreateTestPage = () => {
             question.test = 8
             question.variants.forEach((answer) => (answer.question = 8))
         })
+
+        console.log(formData)
 
         try {
             dispatch(startLoading())

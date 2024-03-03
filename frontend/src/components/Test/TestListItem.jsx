@@ -1,4 +1,5 @@
 import { object } from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const TestListItem = ({ test }) => {
     return (
@@ -7,6 +8,9 @@ const TestListItem = ({ test }) => {
             <span>{test.description}</span>
             <span>{test.test_time}</span>
             <span>{test.max_mark}</span>
+            <Link to="/test/">
+                <button type="button">Перейти до тесту</button>
+            </Link>
         </div>
     )
 }
