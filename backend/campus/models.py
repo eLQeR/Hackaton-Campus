@@ -109,6 +109,7 @@ class User(AbstractUser):
     # STUDENT FIELDS
     group = models.ForeignKey(to=Group, on_delete=models.CASCADE, related_name="students_of_group", null=True, blank=True)
     type_of_studying = models.CharField(choices=TypesStudying.choices, null=True, max_length=63, blank=True)
+    average_mark = models.FloatField(default=0)
     # TEACHER FIELDS
     specialities = models.ManyToManyField(to=Specialty, related_name="teachers")
     groups = models.ManyToManyField(to=Group, related_name="teachers_groups")
@@ -124,13 +125,23 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
-        for subject in self.group.specialty.subjects.all():
-            StudentSubjectProgress.objects.create(subject=subject, student=self)
+        if self.group:
+            for subject in self.group.specialty.subjects.all():
+                StudentSubjectProgress.objects.create(subject=subject, student=self)
 
+
+    @property
+    def get_average_mark(self):
+        sum_of_marks = 0
+        quantity_of_subjects = self.subjects.count()
+        if quantity_of_subjects:
+            for student_progress in self.students_progress.all():
+                sum_of_marks += student_progress.sum_marks
+            return round(sum_of_marks / quantity_of_subjects, 2)
 class Subject(models.Model):
     name = models.CharField(max_length=255)
     amount_of_pairs = models.PositiveIntegerField()
-    teacher = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="subjects")
+    teacher = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="subjects", default=30)
     specialty = models.ForeignKey(to=Specialty, on_delete=models.CASCADE, related_name="subjects")
 
     class Meta:
@@ -177,9 +188,10 @@ class Task(models.Model):
 
     def save(self, *args, **kwargs):
         super(Task, self).save(*args, **kwargs)
+    def __str__(self):
+        return self.name
 
 class AnswerTask(models.Model):
-    student = models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
     task = models.ForeignKey(to=Task, on_delete=models.CASCADE)
 
     class Meta:
@@ -191,7 +203,7 @@ def create_custom_path(instance, filename):
     _, extension = os.path.splitext(filename)
     return os.path.join(
         "uploads/answers/",
-        f"{slugify(instance.answer.student.last_name)}-{uuid.uuid4()}{extension}"
+        f"{slugify(instance.task.name)}-{uuid.uuid4()}{extension}"
     )
 
 
@@ -246,6 +258,12 @@ class VariantOfAnswer(models.Model):
 
     def __str__(self):
         return self.answer
+
+
+class ArchiveTask(models.Model):
+    student = models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
+    task = models.ForeignKey(to=Task, on_delete=models.CASCADE)
+    file = models.FileField(upload_to=create_custom_path)
 
 
 class AnswerTest(models.Model):

@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from .serializers import create_answer_on_test
 from .views import ManageUserView, SubjectViewSet, GroupViewSet, StudentView, StudentSubjectProgressViewSet, \
-    TestViewSet, create_test, send_mail_func, AnswerTestViewSet
+    TestViewSet, create_test, send_mail_func, AnswerTestViewSet, TeacherViewSet
 from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -14,6 +14,7 @@ router = routers.DefaultRouter()
 router.register("subjects", SubjectViewSet)
 router.register("groups", GroupViewSet)
 router.register("students", StudentView)
+router.register("teachers", TeacherViewSet)
 router.register("students-progress", StudentSubjectProgressViewSet)
 router.register("tests", TestViewSet)
 router.register("answers-tests", AnswerTestViewSet)

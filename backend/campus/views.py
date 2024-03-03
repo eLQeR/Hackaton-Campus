@@ -27,9 +27,10 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
 
 class StudentView(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.filter(role="Студент")
     serializer_class = UserSerializer
-
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
     def get_serializer_class(self):
         if self.action == "list":
             return UserListSerializer
@@ -47,7 +48,8 @@ class StudentView(viewsets.ModelViewSet):
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
-
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
     # def get_serializer_class(self):
     #     if self.action == "list":
     #         return ItemListSerializer
@@ -65,7 +67,8 @@ class SubjectViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = SubjectSerializer
-
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
     def get_serializer_class(self):
         if self.action == "list":
             return GroupListSerializer
@@ -83,7 +86,8 @@ class GroupViewSet(viewsets.ModelViewSet):
 class StudentSubjectProgressViewSet(viewsets.ModelViewSet):
     queryset = StudentSubjectProgress.objects.all()
     serializer_class = StudentSubjectProgressSerializer
-
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
     def get_serializer_class(self):
         if self.action == "list":
             return StudentSubjectProgressListSerializer
@@ -101,7 +105,8 @@ class StudentSubjectProgressViewSet(viewsets.ModelViewSet):
 class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
     serializer_class = TestSerializer
-
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
     def get_serializer_class(self):
         if self.action == "list":
             return TestSerializer
@@ -124,7 +129,8 @@ class TestViewSet(viewsets.ModelViewSet):
 class AnswerTestViewSet(viewsets.ModelViewSet):
     queryset = AnswerTest.objects.all()
     serializer_class = AnswerTestSerializer
-
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
     # def get_serializer_class(self):
     #     return TestSerializer
 
@@ -136,5 +142,24 @@ class AnswerTestViewSet(viewsets.ModelViewSet):
 
         if form_of_studying:
             queryset = queryset.filter(form_of_studying=form_of_studying)
+        return queryset
+
+
+class TeacherViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.filter(role="Викладач")
+    serializer_class = TeacherSerializer
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    def get_serializer_class(self):
+        # if self.action == "list":
+        #     return TeacherSerializer
+        return TeacherSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        group = self.request.query_params.get("group")
+
+        if group:
+            queryset = queryset.filter(group=group)
         return queryset
 

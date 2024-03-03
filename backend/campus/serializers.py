@@ -33,7 +33,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
 class AnswerArchiveCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AnswerTask
+        model = AnswerTest
         fields = (
             "id",
             "file",
@@ -148,7 +148,7 @@ class GroupListSerializer(GroupSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ("id", "username", "email", "password", "is_staff", "last_name", "first_name", "second_name")
+        fields = ("id", "username", "email", "password", "is_staff", "last_name", "first_name", "second_name", "average_mark")
         read_only_fields = ("id", "is_staff")
         extra_kwargs = {
             "password": {"write_only": True, "min_length": 5}
@@ -168,10 +168,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class UserDetailSerializer(UserSerializer):
-    group = GroupSerializer(many=False, read_only=False)
-    specialities = SpecialtySerializer(many=True, read_only=False)
-    groups = GroupSerializer(many=True, read_only=False)
 
 
 class UserListSerializer(UserSerializer):
@@ -179,7 +175,7 @@ class UserListSerializer(UserSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ("id", "last_name", "first_name", "second_name")
+        fields = ("id", "last_name", "first_name", "second_name", "average_mark")
 
 
 class AnswerTaskSerializer(serializers.ModelSerializer):
@@ -253,6 +249,7 @@ class QuestionListSerializer(QuestionSerializer):
 
 
 class SubjectSerializer(serializers.ModelSerializer):
+    specialty = SpecialtySerializer(many=False, read_only=True)
     class Meta:
         model = Subject
         fields = ("id",
@@ -391,13 +388,13 @@ class TestCreateSerializer(serializers.ModelSerializer):
                     is_correct=variant.get("is_correct"),
                     question_id=created_question_id
                 )
-        # send_mail(
-        #     f'Викладач створив нове завдання - {test.name}',
-        #     f"{test.description}",
-        #     'rosulka.abaldui@gmail.com',
-        #     [user.email for user in list(User.objects.filter(group_id=1)) ],
-        #     fail_silently=False,
-        # )
+        send_mail(
+            f'Викладач створив нове завдання - {test.name}',
+            f"{test.description}",
+            'rosulka.abaldui@gmail.com',
+            [user.email for user in list(User.objects.filter(group_id=1)) ],
+            fail_silently=False,
+        )
         return test
 
 
@@ -421,12 +418,15 @@ class ChoosenAnswerTestCreateSerializer(serializers.ModelSerializer):
 
 class AnswerTestSerializer(serializers.ModelSerializer):
     choosen_answers = ChoosenAnswerTestCreateSerializer(many=True, read_only=True)
+
     class Meta:
         model = AnswerTest
         fields = ("student", "test", "choosen_answers", "get_mark")
 
+
 class AnswerTestCreateSerializer(serializers.ModelSerializer):
     choosen_answers = ChoosenAnswerTestCreateSerializer(many=True, read_only=False)
+
     class Meta:
         model = AnswerTest
         fields = ("student", "test", "choosen_answers")
@@ -457,3 +457,20 @@ def create_answer_on_test(request):
         status=status.HTTP_400_BAD_REQUEST
     )
 
+
+
+class TeacherSerializer(serializers.ModelSerializer):
+    subjects = SubjectSerializer(many=True, read_only=True)
+    class Meta:
+        model = get_user_model()
+        fields = ("id", "last_name", "first_name", "second_name", "subjects")
+        read_only_fields = ("id", "is_staff")
+        extra_kwargs = {
+            "password": {"write_only": True, "min_length": 5}
+        }
+
+class UserDetailSerializer(UserSerializer):
+    group = GroupSerializer(many=False, read_only=False)
+    specialities = SpecialtySerializer(many=True, read_only=False)
+    groups = GroupSerializer(many=True, read_only=False)
+    students_progress = StudentSubjectProgressSerializer(many=True, read_only=False)
