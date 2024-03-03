@@ -148,7 +148,7 @@ class GroupListSerializer(GroupSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ("id", "username", "email", "password", "is_staff", "last_name", "first_name", "second_name", "average_mark")
+        fields = ("id", "username", "email", "password", "is_staff", "last_name", "first_name", "second_name", "average_mark", "role")
         read_only_fields = ("id", "is_staff")
         extra_kwargs = {
             "password": {"write_only": True, "min_length": 5}
