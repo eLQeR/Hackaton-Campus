@@ -1,9 +1,10 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from '../api/axios'
 import { setAccessToken } from '../redux/userSlice/userSlice'
 
 const useRefreshToken = () => {
     const { refreshToken } = useSelector((state) => state.user)
+    const dispatch = useDispatch()
 
     const refresh = async () => {
         try {
@@ -18,7 +19,7 @@ const useRefreshToken = () => {
                 }
             )
 
-            dispatchEvent(setAccessToken(res.data.access))
+            dispatch(setAccessToken(res.data.access))
             return res.data.access
         } catch (error) {
             console.log(error)

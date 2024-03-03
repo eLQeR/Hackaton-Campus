@@ -1,17 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
     setError,
     startLoading,
     stopLoading,
 } from '../../redux/loadingSlice/loadingSlice'
+import axios from '../../api/axios'
+import Loader from '../../utils/Loader'
 
 const CreateTestPage = () => {
     const [formData, setFormData] = useState({ questions: {} })
     const [questions, setQuestions] = useState([])
     const axiosPrivate = useAxiosPrivate()
     const dispatch = useDispatch()
+    const [groups, setGroups] = useState([])
+    const { loading } = useSelector((state) => state.loading)
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                dispatch(startLoading())
+                const res = await axios.get('/groups/')
+                setGroups(res.data)
+                dispatch(stopLoading())
+            } catch (error) {
+                dispatch(setError(error))
+            }
+        }
+
+        fetchGroups()
+    }, [dispatch])
 
     const handleFormChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -20,10 +39,10 @@ const CreateTestPage = () => {
     const updateForm = (id) => (e) => {
         setFormData((prev) => {
             const newData = { ...prev }
-            newData.questions[id] = {
-                ...newData.questions[id],
-                [e.target.name]: e.target.value,
-            }
+
+            if (!newData.questions[id]) newData.questions[id] = { variants: [] }
+            newData.questions[id][e.target.name] = e.target.value
+
             return newData
         })
     }
@@ -44,6 +63,164 @@ const CreateTestPage = () => {
 
             return newData
         })
+    }
+
+    const temp = async (i) => {
+        try {
+            await axiosPrivate.post(
+                '/create-test/',
+                JSON.stringify({
+                    name: 'Столиці світу Яроса',
+                    description: 'Це тест на знання столиць світу',
+                    test_time: '13:30:00',
+                    max_mark: 20,
+                    group: i,
+                    questions: [
+                        {
+                            question: 'Столиця України?',
+                            test: 8,
+                            mark: 2,
+                            variants: [
+                                {
+                                    answer: 'a) Донецьк',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Вінниця',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Київ',
+                                    is_correct: 'True',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Харків',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                            ],
+                        },
+                        {
+                            question: 'Столиця Франції?',
+                            test: 8,
+                            mark: 2,
+                            variants: [
+                                {
+                                    answer: 'a) Київ',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Тегеран',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Берлін',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Париж',
+                                    is_correct: 'True',
+                                    question: 8,
+                                },
+                            ],
+                        },
+                        {
+                            question: 'Столиця Німеччини?',
+                            test: 8,
+                            mark: 2,
+                            variants: [
+                                {
+                                    answer: 'a) Київ',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Рига',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Берлін',
+                                    is_correct: 'True',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Париж',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                            ],
+                        },
+                        {
+                            question: 'Столиця Німеччини?',
+                            test: 8,
+                            mark: 2,
+                            variants: [
+                                {
+                                    answer: 'a) Київ',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Рига',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Берлін',
+                                    is_correct: 'True',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Париж',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                            ],
+                        },
+                        {
+                            question: 'Столиця Німеччини?',
+                            test: 8,
+                            mark: 2,
+                            variants: [
+                                {
+                                    answer: 'a) Київ',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Рига',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Берлін',
+                                    is_correct: 'True',
+                                    question: 8,
+                                },
+                                {
+                                    answer: 'a) Париж',
+                                    is_correct: 'False',
+                                    question: 8,
+                                },
+                            ],
+                        },
+                    ],
+                })
+            )
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    for (let i = 6; i < 50; i++) {
+        temp(i)
     }
 
     const updateAnswers = (id, index) => (e) => {
@@ -84,8 +261,9 @@ const CreateTestPage = () => {
         } finally {
             dispatch(stopLoading())
         }
-        console.log(formData)
     }
+
+    if (loading) return <Loader />
 
     return (
         <div>
@@ -96,7 +274,15 @@ const CreateTestPage = () => {
             >
                 Додати питання
             </button>
-            <form>
+            <form onSubmit={submit}>
+                <select onChange={handleFormChange} name="group" required>
+                    {groups.map((group) => (
+                        <option key={group.id} value={group.id}>
+                            {group.code}
+                        </option>
+                    ))}
+                </select>
+
                 <input
                     onChange={handleFormChange}
                     name="name"
@@ -200,9 +386,7 @@ const CreateTestPage = () => {
                         </button>
                     </div>
                 ))}
-                <button type="button" onClick={submit}>
-                    submit
-                </button>
+                <button type="submit">submit</button>
             </form>
         </div>
     )
