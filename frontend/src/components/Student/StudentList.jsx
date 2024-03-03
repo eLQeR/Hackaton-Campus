@@ -5,7 +5,7 @@ import {
     stopLoading,
 } from '../../redux/loadingSlice/loadingSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { axiosPrivate } from '../../api/axios'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import Loader from '../../utils/Loader'
 import StudentListElement from './StudentListElement'
 import { string } from 'prop-types'
@@ -14,6 +14,7 @@ const StudentList = ({ group_id }) => {
     const [students, setStudents] = useState([])
     const { loading } = useSelector((state) => state.loading)
     const dispatch = useDispatch()
+    const axiosPrivate = useAxiosPrivate()
 
     useEffect(() => {
         const fetchStudents = async () => {

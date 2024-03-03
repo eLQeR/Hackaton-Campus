@@ -7,13 +7,14 @@ import {
     stopLoading,
 } from '../../redux/loadingSlice/loadingSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { axiosPrivate } from '../../api/axios'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import Loader from '../../utils/Loader'
 
 const GroupList = ({ filters }) => {
     const [groups, setGroups] = useState([])
     const { loading } = useSelector((state) => state.loading)
     const dispatch = useDispatch()
+    const axiosPrivate = useAxiosPrivate()
 
     useEffect(() => {
         const fetchGroups = async () => {
@@ -35,7 +36,7 @@ const GroupList = ({ filters }) => {
         }
 
         fetchGroups()
-    }, [dispatch, filters])
+    }, [dispatch, filters, axiosPrivate])
 
     if (loading) return <Loader />
 
