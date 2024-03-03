@@ -124,10 +124,9 @@ class TestViewSet(viewsets.ModelViewSet):
     #
     def get_queryset(self):
         queryset = self.queryset
-        form_of_studying = self.request.query_params.get("form_of_studying")
-
-        if form_of_studying:
-            queryset = queryset.filter(form_of_studying=form_of_studying)
+        group = self.request.query_params.get("group")
+        if group:
+            queryset = queryset.filter(group=group)
         return queryset.prefetch_related("group__students_of_group__answer_tests")
 
 
