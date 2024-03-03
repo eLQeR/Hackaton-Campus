@@ -6,17 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('campus', '0002_alter_group_specialty_alter_user_groups_and_more'),
+        ("campus", "0002_alter_group_specialty_alter_user_groups_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='form_of_studying',
+            model_name="user",
+            name="form_of_studying",
         ),
         migrations.AddField(
-            model_name='group',
-            name='form_of_studying',
-            field=models.CharField(choices=[('Денна', 'Day'), ('Дистанційна', 'Distant'), ('Заочна', 'Ofday')], max_length=255, null=True),
+            model_name="group",
+            name="form_of_studying",
+            field=models.CharField(
+                choices=[
+                    ("Денна", "Day"),
+                    ("Дистанційна", "Distant"),
+                    ("Заочна", "Ofday"),
+                ],
+                max_length=255,
+                null=True,
+            ),
         ),
     ]

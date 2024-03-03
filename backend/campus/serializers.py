@@ -11,73 +11,68 @@ from .models import *
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
-        fields = ("id",
-                  "name",
-                  "description",
-                  "data_created",
-                  "test_time",
-                  "max_mark")
+        fields = (
+            "id", "name", "description",
+            "data_created", "test_time", "max_mark"
+        )
 
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ("id",
-                  "name",
-                  "max_mark",
-                  "data_created",
-                  "data_of_start",
-                  "type",
-                  "dead_line")
+        fields = (
+            "id",
+            "name",
+            "max_mark",
+            "data_created",
+            "data_of_start",
+            "type",
+            "dead_line",
+        )
 
 
 class AnswerArchiveCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnswerTest
-        fields = (
-            "id",
-            "file",
-            "answer"
-        )
+        fields = ("id", "file", "answer")
 
 
 class TaskCreateSerializer(serializers.ModelSerializer):
-    answer = AnswerArchiveCreateSerializer(many=False, read_only=False)
+    answer = AnswerArchiveCreateSerializer(
+        many=False,
+        read_only=
+    )
 
     class Meta:
         model = Task
-        fields = ("id",
-                  "name",
-                  "max_mark",
-                  "data_created",
-                  "data_of_start",
-                  "type",
-                  "dead_line",
-                  "answer")
+        fields = (
+            "id",
+            "name",
+            "max_mark",
+            "data_created",
+            "data_of_start",
+            "type",
+            "dead_line",
+            "answer",
+        )
 
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ("id",
-                  "course",
-                  "degree")
+        fields = ("id", "course", "degree")
 
 
 class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
-        fields = ("id",
-                  "name",
-                  "address")
+        fields = ("id", "name", "address")
 
 
 class FacultySerializer(serializers.ModelSerializer):
     class Meta:
         model = Faculty
-        fields = ("id",
-                  "name",
-                  "university")
+        fields = ("id", "name", "university")
 
 
 class FacultyDetailSerializer(FacultySerializer):
@@ -89,18 +84,13 @@ class FacultyListSerializer(FacultySerializer):
 
     class Meta:
         model = Faculty
-        fields = ("id",
-                  "name",
-                  "university")
+        fields = ("id", "name", "university")
 
 
 class SpecialtySerializer(serializers.ModelSerializer):
     class Meta:
         model = Specialty
-        fields = ("id",
-                  "name",
-                  "code",
-                  "faculty")
+        fields = ("id", "name", "code", "faculty")
 
 
 class SpecialtyDetailSerializer(SpecialtySerializer):
@@ -112,19 +102,13 @@ class SpecialtyListSerializer(SpecialtySerializer):
 
     class Meta:
         model = Specialty
-        fields = ("id",
-                  "name",
-                  "code")
+        fields = ("id", "name", "code")
 
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ("id",
-                  "code",
-                  "specialty",
-                  "course",
-                  "form_of_studying")
+        fields = ("id", "code", "specialty", "course", "form_of_studying")
 
 
 class GroupDetailSerializer(GroupSerializer):
@@ -133,26 +117,36 @@ class GroupDetailSerializer(GroupSerializer):
 
 
 class GroupListSerializer(GroupSerializer):
-    course = serializers.SlugRelatedField(slug_field="course", read_only=True)
-    degree = serializers.SlugRelatedField(source="course", slug_field="degree", read_only=True)
+    course = serializers.SlugRelatedField(
+        slug_field="course", read_only=True
+    )
+    degree = serializers.SlugRelatedField(
+        source="course", slug_field="degree", read_only=True
+    )
 
     class Meta:
         model = Group
-        fields = ("id",
-                  "code",
-                  "course",
-                  "degree",
-                  "form_of_studying")
+        fields = ("id", "code", "course", "degree", "form_of_studying")
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ("id", "username", "email", "password", "is_staff", "last_name", "first_name", "second_name", "average_mark", "role")
+        fields = (
+            "id",
+            "username",
+            "email",
+            "password",
+            "is_staff",
+            "last_name",
+            "first_name",
+            "second_name",
+            "average_mark",
+            "role",
+            "group",
+        )
         read_only_fields = ("id", "is_staff")
-        extra_kwargs = {
-            "password": {"write_only": True, "min_length": 5}
-        }
+        extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
 
     def create(self, validated_data):
         user = get_user_model().objects.create_user(**validated_data)
@@ -168,10 +162,8 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-
-
 class UserListSerializer(UserSerializer):
-    # group = serializers.SlugRelatedField(slug_field="code", read_only=True)
+    group = serializers.SlugRelatedField(slug_field="code", read_only=True)
 
     class Meta:
         model = get_user_model()
@@ -181,9 +173,7 @@ class UserListSerializer(UserSerializer):
 class AnswerTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnswerTask
-        fields = ("id",
-                  "student",
-                  "task")
+        fields = ("id", "student", "task")
 
 
 class AnswerTaskDetailSerializer(AnswerTaskSerializer):
@@ -197,19 +187,13 @@ class AnswerTaskListSerializer(AnswerTaskSerializer):
 
     class Meta:
         model = AnswerTask
-        fields = ("id",
-                  "student",
-                  "task")
+        fields = ("id", "student", "task")
 
 
 class AnswerArchiveSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnswerTask
-        fields = (
-            "id",
-            "file",
-            "answer"
-        )
+        fields = ("id", "file", "answer")
 
 
 class AnswerArchiveDetailSerializer(AnswerArchiveSerializer):
@@ -221,20 +205,18 @@ class AnswerArchiveListSerializer(AnswerArchiveSerializer):
 
     class Meta:
         model = AnswerTask
-        fields = (
-            "id",
-            "file",
-            "answer"
-        )
+        fields = ("id", "file", "answer")
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ("id",
-                  "question",
-                  "test",
-                  "mark",)
+        fields = (
+            "id",
+            "question",
+            "test",
+            "mark",
+        )
 
 
 class QuestionListSerializer(QuestionSerializer):
@@ -242,21 +224,15 @@ class QuestionListSerializer(QuestionSerializer):
 
     class Meta:
         model = Question
-        fields = ("id",
-                  "question",
-                  "is_correct",
-                  "mark")
+        fields = ("id", "question", "is_correct", "mark")
 
 
 class SubjectSerializer(serializers.ModelSerializer):
     specialty = SpecialtySerializer(many=False, read_only=True)
+
     class Meta:
         model = Subject
-        fields = ("id",
-                  "name",
-                  "amount_of_pairs",
-                  "teacher",
-                  "specialty")
+        fields = ("id", "name", "amount_of_pairs", "teacher", "specialty")
 
 
 class SubjectDetailSerializer(SubjectSerializer):
@@ -270,20 +246,20 @@ class SubjectListSerializer(SubjectSerializer):
 
     class Meta:
         model = Subject
-        fields = ("id",
-                  "name",
-                  "teacher")
+        fields = ("id", "name", "teacher")
 
 
 class StudentSubjectProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentSubjectProgress
-        fields = ("id",
-                  "subject",
-                  "student",
-                  "num_of_pairs",
-                  "num_of_visited_pairs",
-                  "sum_marks")
+        fields = (
+            "id",
+            "subject",
+            "student",
+            "num_of_pairs",
+            "num_of_visited_pairs",
+            "sum_marks",
+        )
 
 
 class StudentSubjectProgressDetailSerializer(StudentSubjectProgressSerializer):
@@ -297,11 +273,7 @@ class StudentSubjectProgressListSerializer(StudentSubjectProgressSerializer):
 
     class Meta:
         model = StudentSubjectProgress
-        fields = ("id",
-                  "subject",
-                  "student",
-                  "sum_marks",
-                  "visit_rate")
+        fields = ("id", "subject", "student", "sum_marks", "visit_rate")
 
 
 class VariantOfAnswerSerializer(serializers.ModelSerializer):
@@ -315,11 +287,7 @@ class QuestionDetailSerializer(QuestionSerializer):
 
     class Meta:
         model = Question
-        fields = ("id",
-                  "question",
-                  "test",
-                  "mark",
-                  "variants")
+        fields = ("id", "question", "test", "mark", "variants")
 
 
 class TestDetailSerializer(serializers.ModelSerializer):
@@ -327,13 +295,15 @@ class TestDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ("id",
-                  "name",
-                  "description",
-                  "data_created",
-                  "test_time",
-                  "max_mark",
-                  "questions")
+        fields = (
+            "id",
+            "name",
+            "description",
+            "data_created",
+            "test_time",
+            "max_mark",
+            "questions",
+        )
 
 
 class QuestionCreateSerializer(serializers.ModelSerializer):
@@ -341,11 +311,7 @@ class QuestionCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ("id",
-                  "question",
-                  "test",
-                  "mark",
-                  "variants")
+        fields = ("id", "question", "test", "mark", "variants")
 
 
 class TestCreateSerializer(serializers.ModelSerializer):
@@ -353,13 +319,15 @@ class TestCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ("id",
-                  "name",
-                  "description",
-                  "data_created",
-                  "test_time",
-                  "max_mark",
-                  "questions")
+        fields = (
+            "id",
+            "name",
+            "description",
+            "data_created",
+            "test_time",
+            "max_mark",
+            "questions",
+        )
 
     def create(self, validated_data):
         test_name = validated_data["name"]
@@ -371,28 +339,26 @@ class TestCreateSerializer(serializers.ModelSerializer):
             name=test_name,
             description=description,
             test_time=test_time,
-            max_mark=max_mark
+            max_mark=max_mark,
         )
         for question in questions:
             question_ask = question.get("question")
             test_id = test.id
             mark = question.get("mark")
             created_question_id = Question.objects.create(
-                question=question_ask,
-                test_id=test_id,
-                mark=mark
+                question=question_ask, test_id=test_id, mark=mark
             ).id
             for variant in question.get("variants"):
                 VariantOfAnswer.objects.create(
                     answer=variant.get("answer"),
                     is_correct=variant.get("is_correct"),
-                    question_id=created_question_id
+                    question_id=created_question_id,
                 )
         send_mail(
-            f'Викладач створив нове завдання - {test.name}',
+            f"Викладач створив нове завдання - {test.name}",
             f"{test.description}",
-            'rosulka.abaldui@gmail.com',
-            [user.email for user in list(User.objects.filter(group_id=1)) ],
+            "rosulka.abaldui@gmail.com",
+            [user.email for user in list(User.objects.filter(group_id=1))],
             fail_silently=False,
         )
         return test
@@ -405,9 +371,7 @@ def create_test(request):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(
-        status=status.HTTP_400_BAD_REQUEST
-    )
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChoosenAnswerTestCreateSerializer(serializers.ModelSerializer):
@@ -434,14 +398,10 @@ class AnswerTestCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = validated_data["student"]
         test = validated_data["test"]
-        answer_on_test = AnswerTest.objects.create(
-            student=user,
-            test=test
-        )
+        answer_on_test = AnswerTest.objects.create(student=user, test=test)
         for answer in validated_data.get("choosen_answers"):
             ChoosenAnswerTest.objects.create(
-                answer_test=answer_on_test,
-                answer=answer.get("answer")
+                answer_test=answer_on_test, answer=answer.get("answer")
             )
         return answer_on_test
 
@@ -453,21 +413,18 @@ def create_answer_on_test(request):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(
-        status=status.HTTP_400_BAD_REQUEST
-    )
-
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class TeacherSerializer(serializers.ModelSerializer):
     subjects = SubjectSerializer(many=True, read_only=True)
+
     class Meta:
         model = get_user_model()
         fields = ("id", "last_name", "first_name", "second_name", "subjects")
         read_only_fields = ("id", "is_staff")
-        extra_kwargs = {
-            "password": {"write_only": True, "min_length": 5}
-        }
+        extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
+
 
 class UserDetailSerializer(UserSerializer):
     group = GroupSerializer(many=False, read_only=False)

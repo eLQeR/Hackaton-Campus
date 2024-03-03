@@ -7,23 +7,42 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('campus', '0003_remove_user_form_of_studying_group_form_of_studying'),
+        ("campus", "0003_remove_user_form_of_studying_group_form_of_studying"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='group',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='students_of_group', to='campus.group'),
+            model_name="user",
+            name="group",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="students_of_group",
+                to="campus.group",
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='role',
-            field=models.CharField(choices=[('Студент', 'Student'), ('Адмін', 'Admin'), ('Викладач', 'Teacher')], default='Студент', max_length=63),
+            model_name="user",
+            name="role",
+            field=models.CharField(
+                choices=[
+                    ("Студент", "Student"),
+                    ("Адмін", "Admin"),
+                    ("Викладач", "Teacher"),
+                ],
+                default="Студент",
+                max_length=63,
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='type_of_studying',
-            field=models.CharField(blank=True, choices=[('Контракт', 'Contract'), ('Бюджет', 'Budget')], max_length=63, null=True),
+            model_name="user",
+            name="type_of_studying",
+            field=models.CharField(
+                blank=True,
+                choices=[("Контракт", "Contract"), ("Бюджет", "Budget")],
+                max_length=63,
+                null=True,
+            ),
         ),
     ]

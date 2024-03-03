@@ -8,17 +8,21 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('campus', '0010_alter_subject_teacher_archivetask'),
+        ("campus", "0010_alter_subject_teacher_archivetask"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='answertask',
-            name='student',
+            model_name="answertask",
+            name="student",
         ),
         migrations.AddField(
-            model_name='answerarchive',
-            name='student',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL),
+            model_name="answerarchive",
+            name="student",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

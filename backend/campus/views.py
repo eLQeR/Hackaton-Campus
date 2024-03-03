@@ -8,10 +8,10 @@ from django.core.mail import send_mail
 
 def send_mail_func(request):
     send_mail(
-        'check',
-        'nazar lox',
-        'rosulka.abaldui@gmail.com',
-        ['h2o2hcl55@gmail.com'],
+        "check",
+        "nazar lox",
+        "rosulka.abaldui@gmail.com",
+        ["h2o2hcl55@gmail.com"],
         fail_silently=False,
     )
     return Response(data="", status=status.HTTP_201_CREATED)
@@ -31,6 +31,7 @@ class StudentView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
+
     def get_serializer_class(self):
         if self.action == "list":
             return UserListSerializer
@@ -69,6 +70,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
+
     def get_serializer_class(self):
         if self.action == "list":
             return GroupListSerializer
@@ -88,6 +90,7 @@ class StudentSubjectProgressViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSubjectProgressSerializer
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
+
     def get_serializer_class(self):
         if self.action == "list":
             return StudentSubjectProgressListSerializer
@@ -107,6 +110,7 @@ class TestViewSet(viewsets.ModelViewSet):
     serializer_class = TestSerializer
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
+
     def get_serializer_class(self):
         if self.action == "list":
             return TestSerializer
@@ -125,6 +129,7 @@ class TestViewSet(viewsets.ModelViewSet):
         if form_of_studying:
             queryset = queryset.filter(form_of_studying=form_of_studying)
         return queryset
+
 
 class AnswerTestViewSet(viewsets.ModelViewSet):
     queryset = AnswerTest.objects.all()
@@ -150,6 +155,7 @@ class TeacherViewSet(viewsets.ModelViewSet):
     serializer_class = TeacherSerializer
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
+
     def get_serializer_class(self):
         # if self.action == "list":
         #     return TeacherSerializer
@@ -162,4 +168,3 @@ class TeacherViewSet(viewsets.ModelViewSet):
         if group:
             queryset = queryset.filter(group=group)
         return queryset
-
