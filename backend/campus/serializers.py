@@ -436,7 +436,8 @@ class UserDetailSerializer(UserSerializer):
 
 class MarkSerializer(serializers.ModelSerializer):
     subject = SubjectSerializer(many=False, read_only=False)
-    student = SubjectSerializer(many=False, read_only=False)
+    student = UserSerializer(many=False, read_only=False)
+
     class Meta:
         model = Mark
         fields = "__all__"
