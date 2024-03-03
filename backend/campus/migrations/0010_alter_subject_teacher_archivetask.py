@@ -9,22 +9,46 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('campus', '0009_test_group'),
+        ("campus", "0009_test_group"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='subject',
-            name='teacher',
-            field=models.ForeignKey(default=30, on_delete=django.db.models.deletion.CASCADE, related_name='subjects', to=settings.AUTH_USER_MODEL),
+            model_name="subject",
+            name="teacher",
+            field=models.ForeignKey(
+                default=30,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="subjects",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.CreateModel(
-            name='ArchiveTask',
+            name="ArchiveTask",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(upload_to=campus.models.create_custom_path)),
-                ('student', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
-                ('task', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='campus.task')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("file", models.FileField(upload_to=campus.models.create_custom_path)),
+                (
+                    "student",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "task",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="campus.task"
+                    ),
+                ),
             ],
         ),
     ]

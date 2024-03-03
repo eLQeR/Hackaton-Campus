@@ -8,33 +8,44 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('campus', '0005_alter_answerarchive_options_alter_answertask_options_and_more'),
+        (
+            "campus",
+            "0005_alter_answerarchive_options_alter_answertask_options_and_more",
+        ),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='studentsubjectprogress',
-            name='num_of_pairs',
+            model_name="studentsubjectprogress",
+            name="num_of_pairs",
             field=models.PositiveIntegerField(default=10),
         ),
         migrations.AlterField(
-            model_name='studentsubjectprogress',
-            name='num_of_visited_pairs',
+            model_name="studentsubjectprogress",
+            name="num_of_visited_pairs",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='studentsubjectprogress',
-            name='sum_marks',
+            model_name="studentsubjectprogress",
+            name="sum_marks",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='subject',
-            name='specialty',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subjects', to='campus.specialty'),
+            model_name="subject",
+            name="specialty",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="subjects",
+                to="campus.specialty",
+            ),
         ),
         migrations.AlterField(
-            model_name='subject',
-            name='teacher',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subjects', to=settings.AUTH_USER_MODEL),
+            model_name="subject",
+            name="teacher",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="subjects",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
