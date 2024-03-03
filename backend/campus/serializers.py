@@ -1,5 +1,10 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from django.core.mail import send_mail
+
 from .models import *
 
 
@@ -334,8 +339,6 @@ class TestDetailSerializer(serializers.ModelSerializer):
                   "questions")
 
 
-
-
 class QuestionCreateSerializer(serializers.ModelSerializer):
     variants = VariantOfAnswerSerializer(many=True, read_only=False)
 
@@ -346,6 +349,7 @@ class QuestionCreateSerializer(serializers.ModelSerializer):
                   "test",
                   "mark",
                   "variants")
+
 
 class TestCreateSerializer(serializers.ModelSerializer):
     questions = QuestionCreateSerializer(many=True, read_only=False)
@@ -359,6 +363,7 @@ class TestCreateSerializer(serializers.ModelSerializer):
                   "test_time",
                   "max_mark",
                   "questions")
+
     def create(self, validated_data):
         test_name = validated_data["name"]
         description = validated_data["description"]
@@ -383,6 +388,81 @@ class TestCreateSerializer(serializers.ModelSerializer):
             for variant in question.get("variants"):
                 VariantOfAnswer.objects.create(
                     answer=variant.get("answer"),
-                    is_correct=False,
+                    is_correct=variant.get("is_correct"),
                     question_id=created_question_id
                 )
+        for email in User.objects.filter(group_id=1):
+            print(email.email)
+        send_mail(
+            'check',
+            'nazar lox',
+            'rosulka.abaldui@gmail.com',
+            ['h2o2hcl55@gmail.com'],
+            fail_silently=False,
+        )
+        send_mail(
+            f'Викладач створив нове завдання - {test.name}',
+            f"{test.description}",
+            'rosulka.abaldui@gmail.com',
+            [user.email for user in list(User.objects.filter(group_id=1)) ],
+            fail_silently=False,
+        )
+        return test
+
+
+@api_view(["POST"])
+def create_test(request):
+    if request.method == "POST":
+        serializer = TestCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(
+        status=status.HTTP_400_BAD_REQUEST
+    )
+
+
+class ChoosenAnswerTestCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChoosenAnswerTest
+        fields = "__all__"
+
+
+class AnswerTestSerializer(serializers.ModelSerializer):
+    choosen_answers = ChoosenAnswerTestCreateSerializer(many=True, read_only=True)
+    class Meta:
+        model = AnswerTest
+        fields = ("student", "test", "choosen_answers", "get_mark")
+
+class AnswerTestCreateSerializer(serializers.ModelSerializer):
+    choosen_answers = ChoosenAnswerTestCreateSerializer(many=True, read_only=False)
+    class Meta:
+        model = AnswerTest
+        fields = ("student", "test", "choosen_answers")
+
+    def create(self, validated_data):
+        user = validated_data["student"]
+        test = validated_data["test"]
+        answer_on_test = AnswerTest.objects.create(
+            student=user,
+            test=test
+        )
+        for answer in validated_data.get("choosen_answers"):
+            ChoosenAnswerTest.objects.create(
+                answer_test=answer_on_test,
+                answer=answer.get("answer")
+            )
+        return answer_on_test
+
+
+@api_view(["POST"])
+def create_answer_on_test(request):
+    if request.method == "POST":
+        serializer = AnswerTestCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(
+        status=status.HTTP_400_BAD_REQUEST
+    )
+

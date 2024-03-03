@@ -12,6 +12,7 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
+
 class StudentView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -28,6 +29,7 @@ class StudentView(viewsets.ModelViewSet):
         if group:
             queryset = queryset.filter(group=group)
         return queryset
+
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
@@ -64,6 +66,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(form_of_studying=form_of_studying)
         return queryset
 
+
 class StudentSubjectProgressViewSet(viewsets.ModelViewSet):
     queryset = StudentSubjectProgress.objects.all()
     serializer_class = StudentSubjectProgressSerializer
@@ -80,6 +83,7 @@ class StudentSubjectProgressViewSet(viewsets.ModelViewSet):
         if form_of_studying:
             queryset = queryset.filter(form_of_studying=form_of_studying)
         return queryset
+
 
 class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
@@ -103,3 +107,21 @@ class TestViewSet(viewsets.ModelViewSet):
         if form_of_studying:
             queryset = queryset.filter(form_of_studying=form_of_studying)
         return queryset
+
+class AnswerTestViewSet(viewsets.ModelViewSet):
+    queryset = AnswerTest.objects.all()
+    serializer_class = AnswerTestSerializer
+
+    # def get_serializer_class(self):
+    #     return TestSerializer
+
+    # def create(self, request, *args, **kwargs):
+    #
+    def get_queryset(self):
+        queryset = self.queryset.filter(student=self.request.user)
+        form_of_studying = self.request.query_params.get("form_of_studying")
+
+        if form_of_studying:
+            queryset = queryset.filter(form_of_studying=form_of_studying)
+        return queryset
+

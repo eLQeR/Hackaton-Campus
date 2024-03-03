@@ -124,12 +124,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
-        print("Nigga start")
-        print("password")
-        print("passsword", kwargs.get("password"))
-        print("password")
         for subject in self.group.specialty.subjects.all():
-            print("Nigga doo")
             StudentSubjectProgress.objects.create(subject=subject, student=self)
 
 class Subject(models.Model):
@@ -188,8 +183,8 @@ class AnswerTask(models.Model):
     task = models.ForeignKey(to=Task, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Відповідь на питання'
-        verbose_name_plural = "Відповіді на питання"
+        verbose_name = 'Розвязок на питання'
+        verbose_name_plural = "Розвязки на питання"
 
 
 def create_custom_path(instance, filename):
@@ -212,9 +207,12 @@ class AnswerArchive(models.Model):
 class Test(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    data_created = models.DateField(auto_now_add=True)
+    data_created = models.DateTimeField(auto_now_add=True)
+    data_of_start = models.DateTimeField(null=True, blank=True)
     test_time = models.TimeField()
     max_mark = models.PositiveIntegerField()
+    is_completed = models.BooleanField(default=False)
+    group = models.ForeignKey(to=Group, on_delete=models.CASCADE, related_name="tests", default=1)
 
     class Meta:
         verbose_name = 'Тест'
@@ -248,3 +246,24 @@ class VariantOfAnswer(models.Model):
 
     def __str__(self):
         return self.answer
+
+
+class AnswerTest(models.Model):
+    student = models.ForeignKey(to=User, on_delete=models.DO_NOTHING, related_name="answer_tests")
+    test = models.ForeignKey(to=Test, on_delete=models.CASCADE)
+
+    class Meta:
+
+        verbose_name = 'Відповідь на тест'
+        verbose_name_plural = "Відповіді на тести"
+
+    @property
+    def get_mark(self):
+        mark = 0
+        for question in self.choosen_answers.all():
+            if question.answer.is_correct:
+                mark += question.answer.question.mark
+        return mark
+class ChoosenAnswerTest(models.Model):
+    answer_test = models.ForeignKey(to=AnswerTest, on_delete=models.CASCADE, related_name="choosen_answers")
+    answer = models.ForeignKey(to=VariantOfAnswer, on_delete=models.CASCADE, related_name="choosen_answers")
