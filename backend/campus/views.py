@@ -171,4 +171,4 @@ class MarkViewSet(viewsets.ModelViewSet):
         user = self.request.query_params.get("user")
         if subject:
             queryset = queryset.filter(student_id=user)
-        return queryset.prefetch_related("student__groups__user_set").select_related("subject")
+        return queryset.prefetch_related("student__groups").select_related("subject")
