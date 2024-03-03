@@ -43,7 +43,7 @@ class StudentView(viewsets.ModelViewSet):
 
         if group:
             queryset = queryset.filter(group=group)
-        return queryset
+        return queryset.select_related("group")
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
@@ -51,10 +51,6 @@ class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
-    # def get_serializer_class(self):
-    #     if self.action == "list":
-    #         return ItemListSerializer
-    #     return ItemSerializer
 
     def get_queryset(self):
         queryset = self.queryset
@@ -62,7 +58,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
         if group:
             queryset = queryset.filter(group=group)
-        return queryset
+        return queryset.select_related("specialty").select_related("teacher")
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -82,7 +78,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         if form_of_studying:
             queryset = queryset.filter(form_of_studying=form_of_studying)
-        return queryset
+        return queryset.prefetch_related("students_of_group__groups__teachers_groups").select_related("course")
 
 
 class StudentSubjectProgressViewSet(viewsets.ModelViewSet):
@@ -102,7 +98,11 @@ class StudentSubjectProgressViewSet(viewsets.ModelViewSet):
 
         if form_of_studying:
             queryset = queryset.filter(form_of_studying=form_of_studying)
-        return queryset
+        return queryset.prefetch_related(
+            "student__answer_tests__choosen_answers"
+        ).select_related(
+            "subject__specialty"
+        ).select_related("subject")
 
 
 class TestViewSet(viewsets.ModelViewSet):
@@ -128,7 +128,7 @@ class TestViewSet(viewsets.ModelViewSet):
 
         if form_of_studying:
             queryset = queryset.filter(form_of_studying=form_of_studying)
-        return queryset
+        return queryset.prefetch_related("group__students_of_group__answer_tests")
 
 
 class AnswerTestViewSet(viewsets.ModelViewSet):
@@ -136,11 +136,7 @@ class AnswerTestViewSet(viewsets.ModelViewSet):
     serializer_class = AnswerTestSerializer
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
-    # def get_serializer_class(self):
-    #     return TestSerializer
 
-    # def create(self, request, *args, **kwargs):
-    #
     def get_queryset(self):
         queryset = self.queryset.filter(student=self.request.user)
         form_of_studying = self.request.query_params.get("form_of_studying")
@@ -156,15 +152,10 @@ class TeacherViewSet(viewsets.ModelViewSet):
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def get_serializer_class(self):
-        # if self.action == "list":
-        #     return TeacherSerializer
-        return TeacherSerializer
-
     def get_queryset(self):
         queryset = self.queryset
         group = self.request.query_params.get("group")
 
         if group:
             queryset = queryset.filter(group=group)
-        return queryset
+        return queryset.prefetch_related("group__specialty__subjects").prefetch_related("specialities__teachers__students_progress")

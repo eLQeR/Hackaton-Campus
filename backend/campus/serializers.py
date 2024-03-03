@@ -40,7 +40,7 @@ class AnswerArchiveCreateSerializer(serializers.ModelSerializer):
 class TaskCreateSerializer(serializers.ModelSerializer):
     answer = AnswerArchiveCreateSerializer(
         many=False,
-        read_only=
+        read_only=False
     )
 
     class Meta:
@@ -167,7 +167,7 @@ class UserListSerializer(UserSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ("id", "last_name", "first_name", "second_name", "average_mark")
+        fields = ("id", "last_name", "first_name", "second_name", "average_mark", "group")
 
 
 class AnswerTaskSerializer(serializers.ModelSerializer):
@@ -430,4 +430,6 @@ class UserDetailSerializer(UserSerializer):
     group = GroupSerializer(many=False, read_only=False)
     specialities = SpecialtySerializer(many=True, read_only=False)
     groups = GroupSerializer(many=True, read_only=False)
-    students_progress = StudentSubjectProgressSerializer(many=True, read_only=False)
+    students_progress = StudentSubjectProgressSerializer(
+        many=True, read_only=False
+    )
