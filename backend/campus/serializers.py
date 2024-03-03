@@ -391,22 +391,13 @@ class TestCreateSerializer(serializers.ModelSerializer):
                     is_correct=variant.get("is_correct"),
                     question_id=created_question_id
                 )
-        for email in User.objects.filter(group_id=1):
-            print(email.email)
-        send_mail(
-            'check',
-            'nazar lox',
-            'rosulka.abaldui@gmail.com',
-            ['h2o2hcl55@gmail.com'],
-            fail_silently=False,
-        )
-        send_mail(
-            f'Викладач створив нове завдання - {test.name}',
-            f"{test.description}",
-            'rosulka.abaldui@gmail.com',
-            [user.email for user in list(User.objects.filter(group_id=1)) ],
-            fail_silently=False,
-        )
+        # send_mail(
+        #     f'Викладач створив нове завдання - {test.name}',
+        #     f"{test.description}",
+        #     'rosulka.abaldui@gmail.com',
+        #     [user.email for user in list(User.objects.filter(group_id=1)) ],
+        #     fail_silently=False,
+        # )
         return test
 
 
