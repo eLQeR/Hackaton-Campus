@@ -121,27 +121,27 @@ const CreateTestPage = () => {
                             </option>
                         ))}
                     </select>
-                    <input className={'element'}
+                    <input className={'element element-border'}
                            onChange={handleFormChange}
                            name="name"
                            type="text"
                            placeholder="Назва тесту"
                            required
                     />
-                    <textarea className={'element'}
+                    <textarea className={'element element-border'}
                               onChange={handleFormChange}
                               name="description"
                               placeholder="Опис тесту"
                               required
                     />
-                    <input className={'element'}
+                    <input className={'element element-border'}
                            onChange={handleFormChange}
                            name="test_time"
                            placeholder="Час на виконання"
                            type="number"
                            required
                     />
-                    <input className={'element right-side'}
+                    <input className={'element right-side element-border'}
                            onChange={handleFormChange}
                            name="max_mark"
                            placeholder="Максимальний бал"
