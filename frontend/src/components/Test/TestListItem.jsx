@@ -8,7 +8,7 @@ const TestListItem = ({ test }) => {
             <span>{test.description}</span>
             <span>{test.test_time}</span>
             <span>{test.max_mark}</span>
-            <Link to="/test/">
+            <Link to={`/test/${test.id}`}>
                 <button type="button">Перейти до тесту</button>
             </Link>
         </div>

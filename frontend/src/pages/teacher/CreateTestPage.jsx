@@ -21,7 +21,7 @@ const CreateTestPage = () => {
         const fetchGroups = async () => {
             try {
                 dispatch(startLoading())
-                const res = await axios.get('/groups/')
+                const res = await axiosPrivate.get('/groups/')
                 setGroups(res.data)
                 dispatch(stopLoading())
             } catch (error) {
@@ -30,7 +30,7 @@ const CreateTestPage = () => {
         }
 
         fetchGroups()
-    }, [dispatch])
+    }, [dispatch, axiosPrivate])
 
     const handleFormChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -114,44 +114,57 @@ const CreateTestPage = () => {
         <section>
             <form onSubmit={submit}>
                 <div id={'task-head'}>
-                    <select className={'left-side'} onChange={handleFormChange} name="group" required>
+                    <select
+                        className={'left-side'}
+                        onChange={handleFormChange}
+                        name="group"
+                        required
+                    >
                         {groups.map((group) => (
                             <option key={group.id} value={group.id}>
                                 {group.code}
                             </option>
                         ))}
                     </select>
-                    <input className={'element'}
-                           onChange={handleFormChange}
-                           name="name"
-                           type="text"
-                           placeholder="Назва тесту"
-                           required
+                    <input
+                        className={'element'}
+                        onChange={handleFormChange}
+                        name="name"
+                        type="text"
+                        placeholder="Назва тесту"
+                        required
                     />
-                    <textarea className={'element'}
-                              onChange={handleFormChange}
-                              name="description"
-                              placeholder="Опис тесту"
-                              required
+                    <textarea
+                        className={'element'}
+                        onChange={handleFormChange}
+                        name="description"
+                        placeholder="Опис тесту"
+                        required
                     />
-                    <input className={'element'}
-                           onChange={handleFormChange}
-                           name="test_time"
-                           placeholder="Час на виконання"
-                           type="number"
-                           required
+                    <input
+                        className={'element'}
+                        onChange={handleFormChange}
+                        name="test_time"
+                        placeholder="Час на виконання"
+                        type="number"
+                        required
                     />
-                    <input className={'element right-side'}
-                           onChange={handleFormChange}
-                           name="max_mark"
-                           placeholder="Максимальний бал"
-                           type="number"
-                           required
+                    <input
+                        className={'element right-side'}
+                        onChange={handleFormChange}
+                        name="max_mark"
+                        placeholder="Максимальний бал"
+                        type="number"
+                        required
                     />
                 </div>
                 <div className={'task-flex'}>
                     {questions.map((question) => (
-                        <div key={question.id} id={question.id} className={'task-body'}>
+                        <div
+                            key={question.id}
+                            id={question.id}
+                            className={'task-body'}
+                        >
                             <input
                                 onChange={updateForm(question.id)}
                                 name={`question`}
@@ -216,7 +229,7 @@ const CreateTestPage = () => {
                                         )
                                     )
                                     setFormData((prev) => {
-                                        const newData = {...prev}
+                                        const newData = { ...prev }
                                         delete newData.questions[question.id]
                                         return newData
                                     })
@@ -231,10 +244,11 @@ const CreateTestPage = () => {
                     </button>
                 </div>
             </form>
-            <button id={'add-task'}
-                    onClick={() => {
-                        setQuestions((prev) => [...prev, {id: prev.length}])
-                    }}
+            <button
+                id={'add-task'}
+                onClick={() => {
+                    setQuestions((prev) => [...prev, { id: prev.length }])
+                }}
             >
                 Додати питання
             </button>

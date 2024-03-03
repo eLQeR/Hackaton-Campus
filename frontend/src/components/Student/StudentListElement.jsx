@@ -6,7 +6,10 @@ const StudentListElement = ({ student }) => {
             <div className={'element left-side'}>{student.last_name}</div>
             <div className={'element'}>{student.first_name}</div>
             <div className={'element'}>{student.second_name}</div>
-            <span className={'element right-side'}><strong>Детальніше</strong></span>
+            <div className={'element'}>{student.average_mark}</div>
+            <span className={'element right-side'}>
+                <strong>Детальніше</strong>
+            </span>
         </div>
     )
 }

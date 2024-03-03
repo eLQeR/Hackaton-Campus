@@ -11,11 +11,13 @@ const StudentListPage = () => {
                     <div className={'element left-side'}>Прізвище</div>
                     <div className={'element'}>Ім'я</div>
                     <div className={'element'}>Побатькові</div>
-                    <div className={'element right-side'}><strong>Детальна інформація</strong></div>
+                    <div className={'element'}>Середній бал</div>
+                    <div className={'element right-side'}>
+                        <strong>Детальна інформація</strong>
+                    </div>
                 </div>
-                <StudentList group_id={group_id}/>
+                <StudentList group_id={group_id} />
             </div>
-
         </section>
     )
 }
