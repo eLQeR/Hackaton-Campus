@@ -7,7 +7,7 @@ contourpy==1.2.0
 cycler==0.12.1
 distlib==0.3.8
 Django==4.1
-django-cors-headers==4.3.1s\backend>
+django-cors-headers==4.3.1
 django-debug-toolbar==4.3.0
 django-websocket-request==0.1.1
 djangorestframework==3.13.1
