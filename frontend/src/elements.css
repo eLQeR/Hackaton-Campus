@@ -402,3 +402,21 @@ section {
     color: #000000;
     border: none;
 }
+
+.tests-table-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-bottom: 15px;
+}
+
+.add-test a{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    > svg {
+        width: 5vh;
+        height: 5vh;
+    }
+}
