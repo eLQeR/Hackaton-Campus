@@ -3,6 +3,19 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import *
 from .serializers import *
+from django.core.mail import send_mail
+
+
+def send_mail_func(request):
+    send_mail(
+        'check',
+        'nazar lox',
+        'rosulka.abaldui@gmail.com',
+        ['h2o2hcl55@gmail.com'],
+        fail_silently=False,
+    )
+    return Response(data="", status=status.HTTP_201_CREATED)
+
 
 class ManageUserView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
