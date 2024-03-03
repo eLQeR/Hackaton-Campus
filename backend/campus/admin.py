@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import User, Specialty, Faculty, Group, University, Course, Subject, Task, Question, Test, VariantOfAnswer
+from .models import User, Specialty, Faculty, Group, University, Course, Subject, Task, Question, Test, VariantOfAnswer, ArchiveTask
+
+
+class ArchiveTaskInline(admin.TabularInline):
+    fk_name = 'task'
+    model = ArchiveTask
+    extra = 3
 
 
 class QuestionInline(admin.TabularInline):
@@ -7,7 +13,8 @@ class QuestionInline(admin.TabularInline):
     model = Question
     extra = 1
 
-#
+
+
 class AnswerInline(admin.TabularInline):
     fk_name = 'question'
     model = VariantOfAnswer
@@ -27,6 +34,11 @@ class ProductAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [AnswerInline]
 
+@admin.register(Task)
+class ProductAdmin(admin.ModelAdmin):
+    inlines = [ArchiveTaskInline]
+
+
 
 admin.site.register(Faculty)
 admin.site.register(Specialty)
@@ -34,4 +46,3 @@ admin.site.register(Group)
 admin.site.register(University)
 admin.site.register(Course)
 admin.site.register(Subject)
-admin.site.register(Task)
