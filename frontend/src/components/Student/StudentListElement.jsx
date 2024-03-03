@@ -1,4 +1,5 @@
 import { object } from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const StudentListElement = ({ student }) => {
     return (
@@ -8,7 +9,9 @@ const StudentListElement = ({ student }) => {
             <div className={'element'}>{student.second_name}</div>
             <div className={'element'}>{student.average_mark}</div>
             <span className={'element right-side'}>
-                <strong>Детальніше</strong>
+                <Link to={`/marks/${student.id}`}>
+                    <strong>Детальніше</strong>
+                </Link>
             </span>
         </div>
     )

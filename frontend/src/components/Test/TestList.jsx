@@ -7,17 +7,23 @@ import {
     stopLoading,
 } from '../../redux/loadingSlice/loadingSlice'
 import TestListItem from './TestListItem'
+import { object } from 'prop-types'
 
-const TestList = () => {
+const TestList = ({ query }) => {
     const [tests, setTests] = useState([])
     const dispatch = useDispatch()
     const axiosPrivate = useAxiosPrivate()
 
     useEffect(() => {
+        let params = '?'
+        Object.keys(query).forEach(
+            (param) => (params += `${param}=${query[param]}&`)
+        )
+
         try {
             const fetchTests = async () => {
                 dispatch(startLoading())
-                const res = await axiosPrivate.get('/tests/')
+                const res = await axiosPrivate.get(`/tests/${params}`)
                 setTests(res.data)
                 dispatch(stopLoading())
             }
@@ -26,7 +32,7 @@ const TestList = () => {
         } catch (error) {
             dispatch(setError(error))
         }
-    }, [axiosPrivate, dispatch])
+    }, [axiosPrivate, dispatch, query])
 
     return (
         <div>
@@ -35,6 +41,10 @@ const TestList = () => {
             ))}
         </div>
     )
+}
+
+TestList.propTypes = {
+    query: object,
 }
 
 export default TestList

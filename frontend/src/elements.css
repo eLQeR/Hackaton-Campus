@@ -409,7 +409,7 @@ section {
     margin-bottom: 15px;
 }
 
-.add-test a{
+.add-test a {
     margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
@@ -419,4 +419,9 @@ section {
         width: 5vh;
         height: 5vh;
     }
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: column;
 }

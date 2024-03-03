@@ -4,9 +4,12 @@ import Home from './pages/Home'
 import SignIn from './pages/SignIn'
 import GroupListPage from './pages/teacher/GroupListPage'
 import StudentListPage from './pages/teacher/StudentListPage'
-import TestsPage from './pages/teacher/TestsPage'
+import TestsPageTeacher from './pages/teacher/TestsPage'
+import TestsPageUser from './pages/student/TestsPage'
 import CreateTestPage from './pages/teacher/CreateTestPage'
 import TestDetailsPage from './pages/teacher/TestDetailsPage'
+import TestingPage from './pages/student/TestingPage'
+import MarksPage from './pages/student/MarksPage'
 
 const router = createBrowserRouter([
     {
@@ -30,7 +33,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/tests',
-                element: <TestsPage />,
+                element: <TestsPageTeacher />,
             },
             {
                 path: '/create-test',
@@ -39,6 +42,18 @@ const router = createBrowserRouter([
             {
                 path: '/test/:test_id',
                 element: <TestDetailsPage />,
+            },
+            {
+                path: '/user-tests',
+                element: <TestsPageUser />,
+            },
+            {
+                path: '/testing/:test_id',
+                element: <TestingPage />,
+            },
+            {
+                path: '/marks/:user_id',
+                element: <MarksPage />,
             },
         ],
     },

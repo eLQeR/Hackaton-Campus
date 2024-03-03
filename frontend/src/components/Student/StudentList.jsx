@@ -33,7 +33,7 @@ const StudentList = ({ group_id }) => {
         }
 
         fetchStudents()
-    }, [dispatch, group_id])
+    }, [dispatch, group_id, axiosPrivate])
 
     if (loading) return <Loader />
 
