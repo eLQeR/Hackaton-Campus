@@ -20,6 +20,12 @@ header {
     z-index: 2;
     background-color: #14213d;
     color: #e5e5e5;
+
+    box-shadow: rgba(0, 0, 0, 1) 0 5px 15px;
+
+    h1:hover {
+        color: #fca311;
+    }
 }
 
 section {
@@ -36,6 +42,33 @@ section {
     position: absolute;
     left: 0;
     z-index: 4;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+
+    box-shadow: rgba(0, 0, 0, 1) 5px 0 15px;
+
+
+    > div {
+        width: 100%;
+        height: 70px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+
+        color: #000000;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    > div:hover{
+        background-color: #14213d;
+        color: #e5e5e5;
+    }
 }
 
 .navbar-opened {
@@ -64,11 +97,11 @@ section {
 
     display: flex;
     align-items: center;
+    margin-right: 20px;
 
-    > p {
-        margin-left: 10px;
+    > div {
         cursor: pointer;
-
+        margin-left: 20px;
         svg {
             height: 5vh;
             width: 5vh;
@@ -80,6 +113,8 @@ section {
     background-color: #fca311;
     color: #000000;
     transition: background-color 0.25s ease;
+
+    box-shadow: rgba(0, 0, 0, 1) 5px 0 15px;
 }
 
 .navbutton-back-closed {
@@ -88,12 +123,12 @@ section {
     transition: all 0.25s ease;
     transition-delay: 0.5s;
 
-    > p > svg {
+    > div {
         color: #e5e5e5;
     }
 
-    > p > svg:hover {
-        color: #979797;
+    > div:hover {
+        color: #fca311;
     }
 }
 
@@ -103,7 +138,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: right;
-    margin-right: 10px;
+    margin-right: 20px;
 
     svg {
         height: 5vh;
@@ -112,7 +147,7 @@ section {
     }
 
     svg:hover {
-        color: #979797;
+        color: #fca311;
     }
 }
 
@@ -245,4 +280,32 @@ section {
         height: 40px;
         border-radius: 10px;
     }
+}
+
+#home img {
+    object-fit: cover;
+    width: 100vw;
+    height: 50vh;
+
+}
+
+#home h2 {
+    font-size: 60px;
+    position: fixed;
+    top: 30%;
+    left: 40.5%;
+
+    color: #fca311;
+    background-color: rgb(20 33 61 / 0.8);
+    padding: 25px 40px;
+    border-radius: 20px;
+}
+
+#explanation {
+    margin: auto;
+    padding: 20px 40px;
+    font-size:30px;
+    background-color: #14213d;
+    color: #fca311;
+    border-radius: 15px;
 }
