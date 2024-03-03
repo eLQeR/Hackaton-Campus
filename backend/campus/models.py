@@ -323,6 +323,10 @@ class AnswerTest(models.Model):
                 mark += question.answer.question.mark
         return mark
 
+class Mark(models.Model):
+    subject = models.ForeignKey(to=Subject, on_delete=models.CASCADE, related_name="marks")
+    student = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="marks")
+    mark = models.PositiveIntegerField()
 
 class ChoosenAnswerTest(models.Model):
     answer_test = models.ForeignKey(

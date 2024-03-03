@@ -158,3 +158,17 @@ class TeacherViewSet(viewsets.ModelViewSet):
         if group:
             queryset = queryset.filter(group=group)
         return queryset.prefetch_related("group__specialty__subjects").prefetch_related("specialities__teachers__students_progress")
+
+class MarkViewSet(viewsets.ModelViewSet):
+    queryset = Mark.objects.all()
+    serializer_class = MarkSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        subject = self.request.query_params.get("subject")
+        if subject:
+            queryset = queryset.filter(subject_id=subject)
+        user = self.request.query_params.get("user")
+        if subject:
+            queryset = queryset.filter(student_id=user)
+        return queryset.prefetch_related("student__groups__user_set").select_related("subject")

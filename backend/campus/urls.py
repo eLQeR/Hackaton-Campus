@@ -11,7 +11,7 @@ from .views import (
     create_test,
     send_mail_func,
     AnswerTestViewSet,
-    TeacherViewSet,
+    TeacherViewSet, MarkViewSet,
 )
 from rest_framework import routers
 from rest_framework_simplejwt.views import (
@@ -27,6 +27,7 @@ router.register("students", StudentView)
 router.register("students-progress", StudentSubjectProgressViewSet)
 router.register("tests", TestViewSet)
 router.register("answers-tests", AnswerTestViewSet)
+router.register("marks", MarkViewSet)
 # router.register("items", ItemViewSet)
 
 

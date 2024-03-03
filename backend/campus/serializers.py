@@ -433,3 +433,10 @@ class UserDetailSerializer(UserSerializer):
     students_progress = StudentSubjectProgressSerializer(
         many=True, read_only=False
     )
+
+class MarkSerializer(serializers.ModelSerializer):
+    subject = SubjectSerializer(many=False, read_only=False)
+    student = SubjectSerializer(many=False, read_only=False)
+    class Meta:
+        model = Mark
+        fields = "__all__"
