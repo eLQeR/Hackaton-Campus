@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn'
 import GroupListPage from './pages/teacher/GroupListPage'
 import StudentListPage from './pages/teacher/StudentListPage'
 import TestsPage from './pages/teacher/TestsPage'
+import CreateTestPage from './pages/teacher/CreateTestPage'
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 path: '/tests',
                 element: <TestsPage />,
+            },
+            {
+                path: 'create-test',
+                element: <CreateTestPage />,
             },
         ],
     },
